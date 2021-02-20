@@ -19,6 +19,11 @@ main =
         }
 
 
+type Route
+    = Home
+    | Help
+
+
 type Property
     = Property String
 
@@ -38,9 +43,32 @@ modelInitialValue key url =
     }
 
 
+routeFromUrl : Url.Url -> Maybe Route
+routeFromUrl url =
+    if url.path == "" then
+        Just Home
+
+    else
+        Just Help
+
+
+changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
+changeRouteTo maybeRoute model =
+    case maybeRoute of
+        Nothing ->
+            ( model, Cmd.none )
+
+        Just Home ->
+            ( model, Cmd.none )
+
+        Just Help ->
+            ( model, Cmd.none )
+
+
 init : flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    ( modelInitialValue key url, Cmd.none )
+    changeRouteTo (routeFromUrl url)
+        (modelInitialValue key url)
 
 
 type Msg

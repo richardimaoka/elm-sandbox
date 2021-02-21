@@ -1,9 +1,10 @@
-module Main exposing (main)
+module Main exposing (Model, main)
 
-import Browser
+import Browser exposing (Document)
 import Browser.Navigation as Nav
 import Dict exposing (update)
-import Html exposing (div, text)
+import Html exposing (Html, a, b, div, li, text, ul)
+import Html.Attributes exposing (href)
 import Url
 
 
@@ -47,12 +48,18 @@ update msg model =
             ( model, Cmd.none )
 
 
-view : Model -> Browser.Document Msg
-view _ =
+view : Model -> Document Msg
+view model =
     { title = "titleee"
     , body =
-        [ div
-            []
-            [ text "hello" ]
+        [ text "The current URL is : "
+        , b [] [ text (Url.toString model.url) ]
+        , ul []
+            [ viewLink "/home" ]
         ]
     }
+
+
+viewLink : String -> Html Msg
+viewLink path =
+    li [] [ a [ href path ] [ text path ] ]

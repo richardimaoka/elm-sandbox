@@ -1,116 +1,39 @@
-module Main exposing (Model, Msg, init, subscriptions, update, view)
+module Main exposing (main)
 
 import Browser
-import Browser.Navigation as Nav
-import Html exposing (..)
-import Json.Decode as Decode exposing (Value)
-import Url
+import Dict exposing (update)
+import Html exposing (Html, div, text)
 
 
-main : Program Value Model Msg
+main : Program () Model Msg
 main =
-    Browser.application
+    Browser.sandbox
         { init = init
-        , view = view
         , update = update
-        , subscriptions = subscriptions
-        , onUrlRequest = UrlRequested
-        , onUrlChange = UrlChanged
+        , view = view
         }
 
 
-type Route
-    = Home
-    | Help
-
-
-type Property
-    = Property String
-
-
 type alias Model =
-    { key : Nav.Key
-    , url : Url.Url
-    , property : Property
-    }
+    Int
 
 
-modelInitialValue : Nav.Key -> Url.Url -> Model
-modelInitialValue key url =
-    { key = key
-    , url = url
-    , property = Property "p"
-    }
-
-
-routeFromUrl : Url.Url -> Maybe Route
-routeFromUrl url =
-    if url.path == "" then
-        Just Home
-
-    else
-        Just Help
-
-
-changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
-changeRouteTo maybeRoute model =
-    case maybeRoute of
-        Nothing ->
-            ( model, Cmd.none )
-
-        Just Home ->
-            ( model, Cmd.none )
-
-        Just Help ->
-            ( model, Cmd.none )
-
-
-init : flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init flags url key =
-    changeRouteTo (routeFromUrl url)
-        (modelInitialValue key url)
+init : Model
+init =
+    0
 
 
 type Msg
-    = Msg1
-    | Msg2
-    | UrlRequested Browser.UrlRequest
-    | UrlChanged Url.Url
+    = Msg
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Msg1 ->
-            ( model, Cmd.none )
-
-        Msg2 ->
-            ( model, Cmd.none )
-
-        UrlRequested urlRequest ->
-            case urlRequest of
-                Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
-
-                Browser.External href ->
-                    ( model, Nav.load href )
-
-        UrlChanged url ->
-            ( { model | url = url }
-            , Cmd.none
-            )
+        Msg ->
+            model
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
-view : Model -> Browser.Document Msg
-view model =
-    { title = "Application Title"
-    , body =
-        [ div []
-            [ text "New Application" ]
-        ]
-    }
+view : Model -> Html Msg
+view _ =
+    div [] [ text "hello" ]

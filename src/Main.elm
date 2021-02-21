@@ -3,7 +3,7 @@ module Main exposing (main)
 import Browser
 import Browser.Navigation as Nav
 import Dict exposing (update)
-import Html exposing (Html, div, sub, text)
+import Html exposing (div, text)
 import Url
 
 
@@ -31,7 +31,7 @@ type alias Model =
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init flags url key =
+init _ url key =
     ( Model key url, Cmd.none )
 
 

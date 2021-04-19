@@ -41,7 +41,7 @@ init : ( Model, Cmd Msg )
 init =
     ( { pokemons = RemoteData.Loading
       }
-    , Cmd.none
+    , fetchPokemons 151
     )
 
 

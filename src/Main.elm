@@ -50,7 +50,7 @@ init =
 
 
 type Msg
-    = NoOp
+    = FetchDataSuccess PokemonData
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

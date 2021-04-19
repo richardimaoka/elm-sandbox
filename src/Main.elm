@@ -1,9 +1,15 @@
 module Main exposing (..)
 
 import Browser
+import GraphQLClient exposing (makeGraphQLQuery)
 import Graphql.Http
+import Graphql.Operation exposing (RootQuery)
+import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
 import Html exposing (Html, div, h1, img, text)
 import Html.Attributes exposing (src)
+import Pokemon.Object
+import Pokemon.Object.Pokemon as Pokemon
+import Pokemon.Query as Query exposing (PokemonsRequiredArguments)
 import Pokemon.ScalarCodecs
 import RemoteData exposing (RemoteData)
 
@@ -66,6 +72,29 @@ view model =
 
 
 ---- PROGRAM ----
+
+
+pokemonsRequiredArguments : Int -> PokemonsRequiredArguments
+pokemonsRequiredArguments num =
+    { first = num }
+
+
+pokemonListSelection : SelectionSet Pokemon Pokemon.Object.Pokemon
+pokemonListSelection =
+    SelectionSet.map3 Pokemon
+        Pokemon.id
+        Pokemon.name
+        Pokemon.image
+
+
+fetchPokemonsQuery : Int -> SelectionSet Pokemons RootQuery
+fetchPokemonsQuery num =
+    Query.pokemons (pokemonsRequiredArguments num) pokemonListSelection
+
+
+fetchPokemons : Int -> Cmd Msg
+fetchPokemons num =
+    makeGraphQLQuery (fetchPokemonsQuery num) (RemoteData.fromResult >> FetchDataSuccess)
 
 
 main : Program () Model Msg

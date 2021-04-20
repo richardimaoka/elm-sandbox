@@ -57,4 +57,26 @@ Err (Failure ("This is not valid JSON! Unexpected token a in JSON at position 0"
 > decodeString (nullable int) "\"a\""
 Err (OneOf [Failure ("Expecting null") <internals>,Failure ("Expecting an INT") <internals>])
     : Result Error (Maybe Int)
+
+➜  elm-sandbox git:(main) elm repl
+---- Elm 0.19.1 ----------------------------------------------------------------
+Say :help for help and :exit to exit! More at <https://elm-lang.org/0.19.1/repl>
+--------------------------------------------------------------------------------
+> import Json.Decode exposing (..)
+> field "x" int
+<internals> : Decoder Int
+> field "x"
+<function> : Decoder a -> Decoder a
+> decodeString (field "x" int) "{ \"x\": 3}"
+Ok 3 : Result Error Int
+> decodeString (field "x" int) "{ \"x\": 3, \"y\": false}"
+Ok 3 : Result Error Int
+> decodeString (field "y" int) "{ \"x\": 3, \"y\": false}"
+Err (Field "y" (Failure ("Expecting an INT") <internals>))
+    : Result Error Int
+> decodeString (field "y" bool) "{ \"x\": 3, \"y\": false}"
+Ok False : Result Error Bool
+> decodeString (field "y" bool) "{ \"x\": 3, \"y\": faslse}"
+Err (Failure ("This is not valid JSON! Unexpected token s in JSON at position 17") <internals>)
+    : Result Error Bool
 ```

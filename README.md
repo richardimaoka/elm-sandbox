@@ -17,5 +17,44 @@ Err (Failure ("This is not valid JSON! Unexpected token ] in JSON at position 5"
 ```
 
 ```
+ decodeString (nullable int) "13"
+Ok (Just 13) : Result Error (Maybe Int)
+> decodeString (nullable int) "013"
+Err (Failure ("This is not valid JSON! Unexpected number in JSON at position 1") <internals>)
+    : Result Error (Maybe Int)
+> decodeString (nullable int) ""
+Err (Failure ("This is not valid JSON! Unexpected end of JSON input") <internals>)
+    : Result Error (Maybe Int)
+> decodeString (nullable int) "a"
+Err (Failure ("This is not valid JSON! Unexpected token a in JSON at position 0") <internals>)
+    : Result Error (Maybe Int)
+> decodeString ( int) "a"
+Err (Failure ("This is not valid JSON! Unexpected token a in JSON at position 0") <internals>)
+    : Result Error Int
+> decodeString ( int) "null"
+Err (Failure ("Expecting an INT") <internals>)
+    : Result Error Int
+> decodeString (nullable int) "null"
+Ok Nothing : Result Error (Maybe Int)
+> decodeString (nullable int) "undefined"
+Err (Failure ("This is not valid JSON! Unexpected token u in JSON at position 0") <internals>)
+    : Result Error (Maybe Int)
+> decodeString (nullable int) ""null""
+-- TOO MANY ARGS ---------------------------------------------------------- REPL
 
+The `decodeString` function expects 2 arguments, but it got 4 instead.
+
+4|   decodeString (nullable int) ""null""
+     ^^^^^^^^^^^^
+Are there any missing commas? Or missing parentheses?
+
+> decodeString (nullable int) "\"null\""
+Err (OneOf [Failure ("Expecting null") <internals>,Failure ("Expecting an INT") <internals>])
+    : Result Error (Maybe Int)
+> decodeString (nullable int) "a"
+Err (Failure ("This is not valid JSON! Unexpected token a in JSON at position 0") <internals>)
+    : Result Error (Maybe Int)
+> decodeString (nullable int) "\"a\""
+Err (OneOf [Failure ("Expecting null") <internals>,Failure ("Expecting an INT") <internals>])
+    : Result Error (Maybe Int)
 ```

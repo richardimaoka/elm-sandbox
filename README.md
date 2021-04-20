@@ -15,3 +15,7 @@ Ok [1,2,3] : Result Error (List Int)
 > decodeString (list int) "[1,2,]"
 Err (Failure ("This is not valid JSON! Unexpected token ] in JSON at position 5") <internals>)
 ```
+
+```
+
+```

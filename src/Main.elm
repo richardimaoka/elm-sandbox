@@ -1,13 +1,13 @@
 module Main exposing (main)
 
 import Html exposing (text)
-import Json.Decode exposing (decodeString, int)
+import Json.Decode exposing (decodeString, string)
 
 
 main =
-    case decodeString int "042" of
+    case decodeString string "\"a042\"" of
         Ok a ->
-            text <| String.fromInt a
+            text a
 
         Err _ ->
             text "Err"

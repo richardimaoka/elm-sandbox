@@ -96,3 +96,17 @@ Err (Failure ("Expecting an OBJECT with a field named `x`") <internals>)
 Err (Failure ("This is not valid JSON! Unexpected end of JSON input") <internals>)
     : Result Error String
 ```
+
+```elm
+> type alias Point = { x : Int, y: Int }
+> Point
+<function> : Int -> Int -> Point
+> type Point2 = Point2 { x : Int, y: Int }
+> Point2
+<function> : { x : Int, y : Int } -> Point2
+
+> type Point3 = Point3Constructor { x : Int, y: Int }
+> Point3Constructor
+<function> : { x : Int, y : Int } -> Point3
+``
+```

@@ -1,18 +1,56 @@
-module Main exposing (main)
+module Main exposing (..)
 
-import Dict
-import Html exposing (a, text)
-import Json.Decode exposing (bool, decodeString, dict, int)
+import Browser
+import Html exposing (Html, text, div, h1, img)
+import Html.Attributes exposing (src)
 
 
+---- MODEL ----
+
+
+type alias Model =
+    {}
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( {}, Cmd.none )
+
+
+
+---- UPDATE ----
+
+
+type Msg
+    = NoOp
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    ( model, Cmd.none )
+
+
+
+---- VIEW ----
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ img [ src "/logo.svg" ] []
+        , h1 [] [ text "Your Elm App is working!" ]
+        ]
+
+
+
+---- PROGRAM ----
+
+
+main : Program () Model Msg
 main =
-    case decodeString bool "false" of
-        Ok a ->
-            if a then
-                text "true"
-
-            else
-                text "false"
-
-        Err _ ->
-            text "Err"
+    Browser.element
+        { view = view
+        , init = \_ -> init
+        , update = update
+        , subscriptions = always Sub.none
+        }

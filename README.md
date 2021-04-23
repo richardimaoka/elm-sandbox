@@ -108,5 +108,4 @@ Err (Failure ("This is not valid JSON! Unexpected end of JSON input") <internals
 > type Point3 = Point3Constructor { x : Int, y: Int }
 > Point3Constructor
 <function> : { x : Int, y : Int } -> Point3
-``
 ```

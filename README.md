@@ -80,3 +80,19 @@ Ok False : Result Error Bool
 Err (Failure ("This is not valid JSON! Unexpected token s in JSON at position 17") <internals>)
     : Result Error Bool
 ```
+
+```
+> field "x" string
+<internals> : Decoder String
+> decodeString (field "x" string) "{ \"x\": \"aaaa\" }"
+Ok "aaaa" : Result Error String
+> decodeString (field "x" string)
+<function> : String -> Result Error String
+
+> decodeString (field "x" string) "{ \"y\": \"aaaa\" }"
+Err (Failure ("Expecting an OBJECT with a field named `x`") <internals>)
+    : Result Error String
+> decodeString (field "x" string) "{ \"y\": \"aaaa\" "
+Err (Failure ("This is not valid JSON! Unexpected end of JSON input") <internals>)
+    : Result Error String
+```

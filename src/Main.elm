@@ -104,11 +104,17 @@ specificCodeBlock =
     codeBlock sdkManShellScript
 
 
+command : String -> Html msg
+command commandString =
+    pre []
+        [ code [] [ text <| commandString ++ "を実行" ] ]
+
+
 main : Html msg
 main =
     div []
         [ ul []
-            [ li [] [ text """which sdk""" ]
+            [ li [] [ command """which sdk""" ]
             ]
         , ul []
             [ li [] [ text """curl -s "https://get.sdkman.io" | bash""" ]

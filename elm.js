@@ -5159,8 +5159,17 @@ var $author$project$Main$update = F2(
 			return _Utils_Tuple2(false, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$Close = {$: 'Close'};
 var $author$project$Main$Open = {$: 'Open'};
+var $elm$html$Html$article = _VirtualDom_node('article');
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$core$Debug$log = _Debug_log;
@@ -5181,6 +5190,23 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$section = _VirtualDom_node('section');
+var $author$project$Main$Close = {$: 'Close'};
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$sectionTitle = function (title) {
+	return A2(
+		$elm$html$Html$h3,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('text-2xl mb-2'),
+				$elm$html$Html$Events$onClick($author$project$Main$Close)
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(title)
+			]));
+};
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Main$TaskStepButton = function (a) {
@@ -5195,21 +5221,10 @@ var $author$project$Main$TaskStepDescription = function (a) {
 var $author$project$Main$TaskStepScreenshots = function (a) {
 	return {$: 'TaskStepScreenshots', a: a};
 };
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$codeBlock = function (codeString) {
 	return A2(
 		$elm$html$Html$pre,
@@ -5339,7 +5354,7 @@ var $author$project$Main$taskListView = function (taskStepList) {
 		$elm$html$Html$ul,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('mx-4 list-disc')
+				$elm$html$Html$Attributes$class('mx-8 list-disc')
 			]),
 		A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList));
 };
@@ -5362,31 +5377,31 @@ var $author$project$Main$subView = A2(
 		]));
 var $author$project$Main$view = function (model) {
 	return model ? A2(
-		$elm$html$Html$div,
-		_List_Nil,
+		$elm$html$Html$article,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('p-4 w-max-full lg:max-w-screen-md')
+			]),
 		_List_fromArray(
 			[
 				A2(
-				$elm$html$Html$h3,
+				$elm$html$Html$section,
 				_List_fromArray(
 					[
-						$elm$html$Html$Events$onClick($author$project$Main$Close)
+						$elm$html$Html$Attributes$class('border-2 mb-2 shadow-md')
 					]),
 				_List_fromArray(
 					[
+						$author$project$Main$sectionTitle('始める前に'),
 						A2(
-						$elm$core$Debug$log,
-						'wwwaaa',
-						$elm$html$Html$text('title'))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
-					]),
-				_List_fromArray(
-					[$author$project$Main$subView]))
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
+							]),
+						_List_fromArray(
+							[$author$project$Main$subView]))
+					]))
 			])) : A2(
 		$elm$html$Html$div,
 		_List_Nil,

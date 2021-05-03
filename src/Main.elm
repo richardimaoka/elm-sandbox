@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, a, article, button, code, div, h3, img, li, p, pre, text, ul)
+import Html exposing (Html, a, article, button, code, div, h3, img, li, p, pre, section, text, ul)
 import Html.Attributes exposing (class, href, src, style)
 import Html.Events exposing (onClick)
 
@@ -63,9 +63,11 @@ subView =
 view : Model -> Html Msg
 view model =
     if model then
-        div []
-            [ h3 [ onClick Close ] [ Debug.log "wwwaaa" (text "title") ]
-            , div [ style "overflow" "hidden" ] [ subView ]
+        article [ class "p-4 w-max-full lg:max-w-screen-md" ]
+            [ section [ class "border-2 mb-2 shadow-md" ]
+                [ sectionTitle "始める前に"
+                , div [ style "overflow" "hidden" ] [ subView ]
+                ]
             ]
 
     else
@@ -76,9 +78,9 @@ view model =
             ]
 
 
-articleView : Model -> Html Msg
-articleView _ =
-    article [ class "p-4 w-max-full lg:max-w-screen-md" ] [ text "aaaaafsadf sadf sdf sda fsdaf sadfda" ]
+sectionTitle : String -> Html Msg
+sectionTitle title =
+    h3 [ class "text-2xl mb-2", onClick Close ] [ text title ]
 
 
 codeBlock : String -> Html msg
@@ -90,7 +92,7 @@ codeBlock codeString =
 
 taskListView : List TaskStep -> Html Msg
 taskListView taskStepList =
-    ul [ class "mx-4 list-disc" ]
+    ul [ class "mx-8 list-disc" ]
         (List.map
             taskStepView
             taskStepList

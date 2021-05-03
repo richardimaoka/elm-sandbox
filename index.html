@@ -5,8 +5,9 @@
     <script src="elm.js"></script>
   </head>
   <body>
+    <div id="elm-app"></div>
     <script type="text/javascript">
-      Elm.Main.init();
+      Elm.Main.init({ node: document.getElementById("elm-app") });
     </script>
   </body>
 </html>

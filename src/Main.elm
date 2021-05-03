@@ -17,33 +17,14 @@ main =
 
 
 type alias Model =
-    Bool
+    { taskSteps : List TaskStep
+    , open : Bool
+    }
 
 
 init : flags -> ( Model, Cmd Msg )
 init _ =
-    ( True, Cmd.none )
-
-
-type Msg
-    = Open
-    | Close
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg _ =
-    case msg of
-        Open ->
-            ( True, Cmd.none )
-
-        Close ->
-            ( False, Cmd.none )
-
-
-subView : Html Msg
-subView =
-    div []
-        [ taskListView
+    ( { taskSteps =
             [ TaskStepButton
                 { url = "https://google.com"
                 , buttonText = "プロジェクトの設定"
@@ -57,23 +38,48 @@ subView =
             , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
             , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
             ]
+      , open = True
+      }
+    , Cmd.none
+    )
+
+
+type Msg
+    = Open
+    | Close
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Open ->
+            ( { model | open = True }, Cmd.none )
+
+        Close ->
+            ( { model | open = False }, Cmd.none )
+
+
+subView : List TaskStep -> Html Msg
+subView taskStepList =
+    div []
+        [ taskListView taskStepList
         ]
 
 
 view : Model -> Html Msg
 view model =
-    if model then
+    if model.open then
         article [ class "p-4 w-max-full lg:max-w-screen-md" ]
             [ section [ class "border-2 mb-2 shadow-md" ]
                 [ sectionTitle "始める前に"
-                , div [ style "overflow" "hidden" ] [ subView ]
+                , div [ style "overflow" "hidden" ] [ subView model.taskSteps ]
                 ]
             ]
 
     else
         div []
             [ h3 [ onClick Open ] [ Debug.log "wwwaaa" (text "title") ]
-            , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView ]
+            , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView model.taskSteps ]
             , h3 [] [ text "outspssssssttt" ]
             ]
 

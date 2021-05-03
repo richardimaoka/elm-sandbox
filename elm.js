@@ -5144,19 +5144,53 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $author$project$Main$TaskStepButton = function (a) {
+	return {$: 'TaskStepButton', a: a};
+};
+var $author$project$Main$TaskStepCode = function (a) {
+	return {$: 'TaskStepCode', a: a};
+};
+var $author$project$Main$TaskStepDescription = function (a) {
+	return {$: 'TaskStepDescription', a: a};
+};
+var $author$project$Main$TaskStepScreenshots = function (a) {
+	return {$: 'TaskStepScreenshots', a: a};
+};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
-	return _Utils_Tuple2(true, $elm$core$Platform$Cmd$none);
+	return _Utils_Tuple2(
+		{
+			open: true,
+			taskSteps: _List_fromArray(
+				[
+					$author$project$Main$TaskStepButton(
+					{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
+					$author$project$Main$TaskStepScreenshots(
+					_List_fromArray(
+						['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
+					$author$project$Main$TaskStepCode('export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH'),
+					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
+				])
+		},
+		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$update = F2(
-	function (msg, _v0) {
+	function (msg, model) {
 		if (msg.$ === 'Open') {
-			return _Utils_Tuple2(true, $elm$core$Platform$Cmd$none);
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{open: true}),
+				$elm$core$Platform$Cmd$none);
 		} else {
-			return _Utils_Tuple2(false, $elm$core$Platform$Cmd$none);
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{open: false}),
+				$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$Open = {$: 'Open'};
@@ -5209,18 +5243,6 @@ var $author$project$Main$sectionTitle = function (title) {
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Main$TaskStepButton = function (a) {
-	return {$: 'TaskStepButton', a: a};
-};
-var $author$project$Main$TaskStepCode = function (a) {
-	return {$: 'TaskStepCode', a: a};
-};
-var $author$project$Main$TaskStepDescription = function (a) {
-	return {$: 'TaskStepDescription', a: a};
-};
-var $author$project$Main$TaskStepScreenshots = function (a) {
-	return {$: 'TaskStepScreenshots', a: a};
-};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$code = _VirtualDom_node('code');
@@ -5358,25 +5380,17 @@ var $author$project$Main$taskListView = function (taskStepList) {
 			]),
 		A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList));
 };
-var $author$project$Main$subView = A2(
-	$elm$html$Html$div,
-	_List_Nil,
-	_List_fromArray(
-		[
-			$author$project$Main$taskListView(
-			_List_fromArray(
-				[
-					$author$project$Main$TaskStepButton(
-					{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
-					$author$project$Main$TaskStepScreenshots(
-					_List_fromArray(
-						['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
-					$author$project$Main$TaskStepCode('export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH'),
-					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
-				]))
-		]));
+var $author$project$Main$subView = function (taskStepList) {
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$author$project$Main$taskListView(taskStepList)
+			]));
+};
 var $author$project$Main$view = function (model) {
-	return model ? A2(
+	return model.open ? A2(
 		$elm$html$Html$article,
 		_List_fromArray(
 			[
@@ -5400,7 +5414,9 @@ var $author$project$Main$view = function (model) {
 								A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 							]),
 						_List_fromArray(
-							[$author$project$Main$subView]))
+							[
+								$author$project$Main$subView(model.taskSteps)
+							]))
 					]))
 			])) : A2(
 		$elm$html$Html$div,
@@ -5428,7 +5444,9 @@ var $author$project$Main$view = function (model) {
 						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 					]),
 				_List_fromArray(
-					[$author$project$Main$subView])),
+					[
+						$author$project$Main$subView(model.taskSteps)
+					])),
 				A2(
 				$elm$html$Html$h3,
 				_List_Nil,

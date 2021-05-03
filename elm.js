@@ -5194,7 +5194,7 @@ var $author$project$Main$myCode = A2(
 	$elm$html$Html$pre,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$class('bg-grey-800')
+			$elm$html$Html$Attributes$class('bg-gray-800 text-white p-4')
 		]),
 	_List_fromArray(
 		[
@@ -5237,7 +5237,7 @@ var $author$project$Main$subView = A2(
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text('aaasaadaaa')
+					$elm$html$Html$text('aaasaadasssaa')
 				])),
 			A2(
 			$elm$html$Html$ul,

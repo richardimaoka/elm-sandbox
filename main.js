@@ -5237,7 +5237,7 @@ var $author$project$Main$subView = A2(
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text('aaasaadaaa')
+					$elm$html$Html$text('aaasaadasssssssssssssssssssssssssssaa')
 				])),
 			A2(
 			$elm$html$Html$ul,
@@ -5299,7 +5299,7 @@ var $author$project$Main$view = function (model) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text('odddddutpttt')
+						$elm$html$Html$text('oddddsssssssdutddddddddddddpttt')
 					])),
 				$author$project$Main$articleView(model),
 				A2(

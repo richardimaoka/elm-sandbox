@@ -44,7 +44,7 @@ subView : Html Msg
 subView =
     div []
         [ div []
-            [ text "aaasaadaaa" ]
+            [ text "aaasaadasssaa" ]
         , ul []
             [ li [] [ text "afffaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
         ]
@@ -78,7 +78,7 @@ articleView _ =
 
 myCode : Html msg
 myCode =
-    pre [ class "bg-grey-800" ]
+    pre [ class "bg-gray-800 text-white p-4" ]
         [ code []
             [ text """
 package main

@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Array exposing (Array)
 import Browser
 import Html exposing (Html, a, article, button, code, div, h3, img, li, p, pre, section, text, ul)
 import Html.Attributes exposing (class, href, src, style)
@@ -17,14 +18,17 @@ main =
 
 
 type alias Model =
-    { taskSteps : List TaskStep
+    { id : String
+    , taskSteps : List TaskStep
     , open : Bool
     }
 
 
 type alias Task =
-    { title : String
-    , taskSteps : List TaskStep
+    { id : String
+    , title : String
+    , taskSteps : Array TaskStep
+    , isOpen : Bool
     }
 
 
@@ -41,7 +45,8 @@ type TaskStep
 
 init : flags -> ( Model, Cmd Msg )
 init _ =
-    ( { taskSteps =
+    ( { id = "aaaaa"
+      , taskSteps =
             [ TaskStepButton
                 { url = "https://google.com"
                 , buttonText = "プロジェクトの設定"
@@ -62,18 +67,26 @@ init _ =
 
 
 type Msg
-    = Open
-    | Close
+    = Open String
+    | Close String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Open ->
-            ( { model | open = True }, Cmd.none )
+        Open id ->
+            if id == model.id then
+                ( { model | open = True }, Cmd.none )
 
-        Close ->
-            ( { model | open = False }, Cmd.none )
+            else
+                ( model, Cmd.none )
+
+        Close id ->
+            if id == model.id then
+                ( { model | open = False }, Cmd.none )
+
+            else
+                ( model, Cmd.none )
 
 
 subView : List TaskStep -> Html Msg
@@ -95,23 +108,23 @@ view model =
     in
     article [ class "p-4 w-max-full lg:max-w-screen-md" ]
         [ section [ class "border-2 mb-2 shadow-md" ]
-            [ sectionTitle model.open "始める前に"
+            [ sectionTitle model.id model.open "始める前に"
             , div styles [ subView model.taskSteps ]
             ]
         ]
 
 
-sectionTitle : Bool -> String -> Html Msg
-sectionTitle isOpen title =
+sectionTitle : String -> Bool -> String -> Html Msg
+sectionTitle id isOpen title =
     div [ class "flex flex-row justify-between mx-4 mb-2" ]
-        [ h3 [ class "text-2xl mb-2", onClick Close ] [ text title ]
+        [ h3 [ class "text-2xl mb-2" ] [ text title ]
         , button
             [ onClick
                 (if isOpen then
-                    Close
+                    Close id
 
                  else
-                    Open
+                    Open id
                 )
             ]
             [ text "expand" ]

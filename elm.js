@@ -5161,6 +5161,7 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
 		{
+			id: 'aaaaa',
 			open: true,
 			taskSteps: _List_fromArray(
 				[
@@ -5180,17 +5181,19 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		if (msg.$ === 'Open') {
-			return _Utils_Tuple2(
+			var id = msg.a;
+			return _Utils_eq(id, model.id) ? _Utils_Tuple2(
 				_Utils_update(
 					model,
 					{open: true}),
-				$elm$core$Platform$Cmd$none);
+				$elm$core$Platform$Cmd$none) : _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		} else {
-			return _Utils_Tuple2(
+			var id = msg.a;
+			return _Utils_eq(id, model.id) ? _Utils_Tuple2(
 				_Utils_update(
 					model,
 					{open: false}),
-				$elm$core$Platform$Cmd$none);
+				$elm$core$Platform$Cmd$none) : _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $elm$html$Html$article = _VirtualDom_node('article');
@@ -5205,8 +5208,12 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$section = _VirtualDom_node('section');
-var $author$project$Main$Close = {$: 'Close'};
-var $author$project$Main$Open = {$: 'Open'};
+var $author$project$Main$Close = function (a) {
+	return {$: 'Close', a: a};
+};
+var $author$project$Main$Open = function (a) {
+	return {$: 'Open', a: a};
+};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
@@ -5228,8 +5235,8 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$sectionTitle = F2(
-	function (isOpen, title) {
+var $author$project$Main$sectionTitle = F3(
+	function (id, isOpen, title) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5242,8 +5249,7 @@ var $author$project$Main$sectionTitle = F2(
 					$elm$html$Html$h3,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('text-2xl mb-2'),
-							$elm$html$Html$Events$onClick($author$project$Main$Close)
+							$elm$html$Html$Attributes$class('text-2xl mb-2')
 						]),
 					_List_fromArray(
 						[
@@ -5254,7 +5260,7 @@ var $author$project$Main$sectionTitle = F2(
 					_List_fromArray(
 						[
 							$elm$html$Html$Events$onClick(
-							isOpen ? $author$project$Main$Close : $author$project$Main$Open)
+							isOpen ? $author$project$Main$Close(id) : $author$project$Main$Open(id))
 						]),
 					_List_fromArray(
 						[
@@ -5434,7 +5440,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2($author$project$Main$sectionTitle, model.open, '始める前に'),
+						A3($author$project$Main$sectionTitle, model.id, model.open, '始める前に'),
 						A2(
 						$elm$html$Html$div,
 						styles,

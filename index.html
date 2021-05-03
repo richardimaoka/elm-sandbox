@@ -2,15 +2,6 @@
 <html>
   <head>
     <meta http-equiv="content-type" charset="UTF-8" />
-    <!-- link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    -->
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css"
-    />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
     <link
       href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
       rel="stylesheet"
@@ -20,10 +11,7 @@
     <div id="elm-app"></div>
     <script src="elm.js"></script>
     <script type="text/javascript">
-      var app = Elm.Main.init({ node: document.getElementById("elm-app") });
-      app.ports.triggerHighlightJs.subscribe(function (data) {
-        hljs.highlightAll();
-      });
+      Elm.Main.init({ node: document.getElementById("elm-app") });
     </script>
   </body>
 </html>

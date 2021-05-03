@@ -5151,23 +5151,18 @@ var $author$project$Main$init = function (_v0) {
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Main$triggerHighlightJs = _Platform_outgoingPort('triggerHighlightJs', $elm$json$Json$Encode$string);
 var $author$project$Main$update = F2(
 	function (msg, _v0) {
 		if (msg.$ === 'Open') {
-			return _Utils_Tuple2(
-				true,
-				$author$project$Main$triggerHighlightJs(''));
+			return _Utils_Tuple2(true, $elm$core$Platform$Cmd$none);
 		} else {
-			return _Utils_Tuple2(
-				false,
-				$author$project$Main$triggerHighlightJs(''));
+			return _Utils_Tuple2(false, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$Close = {$: 'Close'};
 var $author$project$Main$Open = {$: 'Open'};
 var $elm$html$Html$article = _VirtualDom_node('article');
+var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -5197,15 +5192,15 @@ var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $author$project$Main$myCode = A2(
 	$elm$html$Html$pre,
-	_List_Nil,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('bg-grey-800')
+		]),
 	_List_fromArray(
 		[
 			A2(
 			$elm$html$Html$code,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('go')
-				]),
+			_List_Nil,
 			_List_fromArray(
 				[
 					$elm$html$Html$text('\npackage main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}\n')

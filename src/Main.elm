@@ -1,12 +1,9 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 import Browser
 import Html exposing (Html, article, code, div, h3, li, pre, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
-
-
-port triggerHighlightJs : String -> Cmd msg
 
 
 main : Program () Model Msg
@@ -37,10 +34,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg _ =
     case msg of
         Open ->
-            ( True, triggerHighlightJs "" )
+            ( True, Cmd.none )
 
         Close ->
-            ( False, triggerHighlightJs "" )
+            ( False, Cmd.none )
 
 
 subView : Html Msg
@@ -81,8 +78,8 @@ articleView _ =
 
 myCode : Html msg
 myCode =
-    pre []
-        [ code [ class "go" ]
+    pre [ class "bg-grey-800" ]
+        [ code []
             [ text """
 package main
 

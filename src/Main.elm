@@ -43,7 +43,7 @@ subView : Html Msg
 subView =
     div []
         [ div []
-            [ text "aaa" ]
+            [ text "aaaaaaaa" ]
         , ul []
             [ li [] [ text "afffaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
         ]

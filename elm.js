@@ -5212,7 +5212,7 @@ var $author$project$Main$subView = A2(
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text('aaa')
+					$elm$html$Html$text('aaaaaaaa')
 				])),
 			A2(
 			$elm$html$Html$ul,

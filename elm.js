@@ -5193,7 +5193,6 @@ var $author$project$Main$update = F2(
 				$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$Open = {$: 'Open'};
 var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -5205,8 +5204,9 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$section = _VirtualDom_node('section');
+var $author$project$Main$Close = {$: 'Close'};
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
-var $elm$core$Debug$log = _Debug_log;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5224,8 +5224,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$section = _VirtualDom_node('section');
-var $author$project$Main$Close = {$: 'Close'};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$sectionTitle = function (title) {
@@ -5390,7 +5388,15 @@ var $author$project$Main$subView = function (taskStepList) {
 			]));
 };
 var $author$project$Main$view = function (model) {
-	return model.open ? A2(
+	var styles = model.open ? _List_fromArray(
+		[
+			A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
+		]) : _List_fromArray(
+		[
+			A2($elm$html$Html$Attributes$style, 'max-height', '0px'),
+			A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
+		]);
+	return A2(
 		$elm$html$Html$article,
 		_List_fromArray(
 			[
@@ -5409,50 +5415,11 @@ var $author$project$Main$view = function (model) {
 						$author$project$Main$sectionTitle('始める前に'),
 						A2(
 						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
-							]),
+						styles,
 						_List_fromArray(
 							[
 								$author$project$Main$subView(model.taskSteps)
 							]))
-					]))
-			])) : A2(
-		$elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$h3,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$Open)
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$core$Debug$log,
-						'wwwaaa',
-						$elm$html$Html$text('title'))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						A2($elm$html$Html$Attributes$style, 'max-height', '0px'),
-						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
-					]),
-				_List_fromArray(
-					[
-						$author$project$Main$subView(model.taskSteps)
-					])),
-				A2(
-				$elm$html$Html$h3,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('outspssssssttt')
 					]))
 			]));
 };

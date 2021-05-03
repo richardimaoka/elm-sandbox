@@ -68,20 +68,20 @@ subView taskStepList =
 
 view : Model -> Html Msg
 view model =
-    if model.open then
-        article [ class "p-4 w-max-full lg:max-w-screen-md" ]
-            [ section [ class "border-2 mb-2 shadow-md" ]
-                [ sectionTitle "始める前に"
-                , div [ style "overflow" "hidden" ] [ subView model.taskSteps ]
-                ]
-            ]
+    let
+        styles =
+            if model.open then
+                [ style "overflow" "hidden" ]
 
-    else
-        div []
-            [ h3 [ onClick Open ] [ Debug.log "wwwaaa" (text "title") ]
-            , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView model.taskSteps ]
-            , h3 [] [ text "outspssssssttt" ]
+            else
+                [ style "max-height" "0px", style "overflow" "hidden" ]
+    in
+    article [ class "p-4 w-max-full lg:max-w-screen-md" ]
+        [ section [ class "border-2 mb-2 shadow-md" ]
+            [ sectionTitle "始める前に"
+            , div styles [ subView model.taskSteps ]
             ]
+        ]
 
 
 sectionTitle : String -> Html Msg

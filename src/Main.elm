@@ -8,6 +8,44 @@ import Html.Attributes exposing (class, href, src, style)
 import Html.Events exposing (onClick)
 
 
+init : flags -> ( Model, Cmd Msg )
+init _ =
+    ( { title = "my first task page"
+      , tasks = initTasks
+      }
+    , Cmd.none
+    )
+
+
+initTasks : Tasks
+initTasks =
+    tasksFromList
+        [ { id = "aaaa"
+          , title = "始める前に"
+          , isOpen = True
+          , taskSteps = taskSteps1
+          }
+        ]
+
+
+taskSteps1 : TaskSteps
+taskSteps1 =
+    taskStepsFromList
+        [ TaskStepButton
+            { url = "https://google.com"
+            , buttonText = "プロジェクトの設定"
+            , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
+            }
+        , TaskStepScreenshots
+            [ "https://cloud.google.com/docs/images/overview/console.png"
+            , "https://cloud.google.com/docs/images/overview/console.png"
+            , "https://cloud.google.com/docs/images/overview/console.png"
+            ]
+        , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
+        , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
+        ]
+
+
 main : Program () Model Msg
 main =
     Browser.element
@@ -16,15 +54,6 @@ main =
         , view = view
         , subscriptions = \_ -> Sub.none
         }
-
-
-init : flags -> ( Model, Cmd Msg )
-init _ =
-    ( { title = "my first task page"
-      , tasks = initTasks
-      }
-    , Cmd.none
-    )
 
 
 type alias Model =
@@ -100,17 +129,6 @@ type TaskStep
     | TaskStepScreenshots (List String)
 
 
-initTasks : Tasks
-initTasks =
-    tasksFromList
-        [ { id = "aaaa"
-          , title = "始める前に"
-          , isOpen = True
-          , taskSteps = taskSteps1
-          }
-        ]
-
-
 type alias TaskSteps =
     Array TaskStep
 
@@ -123,24 +141,6 @@ taskStepsFromList list =
 taskStepsToList : TaskSteps -> List TaskStep
 taskStepsToList taskSteps =
     Array.toList taskSteps
-
-
-taskSteps1 : TaskSteps
-taskSteps1 =
-    taskStepsFromList
-        [ TaskStepButton
-            { url = "https://google.com"
-            , buttonText = "プロジェクトの設定"
-            , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
-            }
-        , TaskStepScreenshots
-            [ "https://cloud.google.com/docs/images/overview/console.png"
-            , "https://cloud.google.com/docs/images/overview/console.png"
-            , "https://cloud.google.com/docs/images/overview/console.png"
-            ]
-        , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
-        , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
-        ]
 
 
 type Msg

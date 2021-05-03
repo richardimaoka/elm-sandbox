@@ -57,22 +57,22 @@ tasksToList tasks =
 
 tasksOpen : String -> Tasks -> Tasks
 tasksOpen id tasks =
-    case findRecursive (\task -> task.id == id) 0 tasks of
-        Just index ->
-            Array.Extra.update index (\task -> { task | isOpen = True }) tasks
-
-        Nothing ->
-            tasks
+    findUpdate (\task -> task.id == id) (\task -> { task | isOpen = True }) tasks
 
 
 tasksClose : String -> Tasks -> Tasks
 tasksClose id tasks =
-    case findRecursive (\task -> task.id == id) 0 tasks of
+    findUpdate (\task -> task.id == id) (\task -> { task | isOpen = False }) tasks
+
+
+findUpdate : (a -> Bool) -> (a -> a) -> Array a -> Array a
+findUpdate predicate updateFunc array =
+    case findRecursive predicate 0 array of
         Just index ->
-            Array.Extra.update index (\task -> { task | isOpen = False }) tasks
+            Array.Extra.update index updateFunc array
 
         Nothing ->
-            tasks
+            array
 
 
 findRecursive : (a -> Bool) -> Int -> Array a -> Maybe Int
@@ -86,7 +86,7 @@ findRecursive predicate currentIndex array =
                 else
                     findRecursive predicate (currentIndex + 1) array
     in
-    Maybe.andThen maybeIndex (Array.get currentIndex array)
+    Array.get currentIndex array |> Maybe.andThen maybeIndex
 
 
 type TaskStep

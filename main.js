@@ -5377,53 +5377,43 @@ var $elm_community$array_extra$Array$Extra$update = F3(
 				a);
 		}
 	});
+var $author$project$Main$findUpdate = F3(
+	function (predicate, updateFunc, array) {
+		var _v0 = A3($author$project$Main$findRecursive, predicate, 0, array);
+		if (_v0.$ === 'Just') {
+			var index = _v0.a;
+			return A3($elm_community$array_extra$Array$Extra$update, index, updateFunc, array);
+		} else {
+			return array;
+		}
+	});
 var $author$project$Main$tasksClose = F2(
 	function (id, tasks) {
-		var _v0 = A3(
-			$author$project$Main$findRecursive,
+		return A3(
+			$author$project$Main$findUpdate,
 			function (task) {
 				return _Utils_eq(task.id, id);
 			},
-			0,
+			function (task) {
+				return _Utils_update(
+					task,
+					{isOpen: false});
+			},
 			tasks);
-		if (_v0.$ === 'Just') {
-			var index = _v0.a;
-			return A3(
-				$elm_community$array_extra$Array$Extra$update,
-				index,
-				function (task) {
-					return _Utils_update(
-						task,
-						{isOpen: false});
-				},
-				tasks);
-		} else {
-			return tasks;
-		}
 	});
 var $author$project$Main$tasksOpen = F2(
 	function (id, tasks) {
-		var _v0 = A3(
-			$author$project$Main$findRecursive,
+		return A3(
+			$author$project$Main$findUpdate,
 			function (task) {
 				return _Utils_eq(task.id, id);
 			},
-			0,
+			function (task) {
+				return _Utils_update(
+					task,
+					{isOpen: true});
+			},
 			tasks);
-		if (_v0.$ === 'Just') {
-			var index = _v0.a;
-			return A3(
-				$elm_community$array_extra$Array$Extra$update,
-				index,
-				function (task) {
-					return _Utils_update(
-						task,
-						{isOpen: true});
-				},
-				tasks);
-		} else {
-			return tasks;
-		}
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {

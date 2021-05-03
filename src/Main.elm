@@ -43,11 +43,7 @@ update msg _ =
 subView : Html Msg
 subView =
     div []
-        [ div []
-            [ text "aaasaadasssaa" ]
-        , ul []
-            [ li [] [ text "afffaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
-        ]
+        (taskList [ "aaa", "bbb", "ccc", "ddd" ])
 
 
 view : Model -> Html Msg
@@ -56,11 +52,6 @@ view model =
         div []
             [ h3 [ onClick Close ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "overflow" "hidden" ] [ subView ]
-            , h3 [] [ text "odddddutpttt" ]
-            , articleView model
-            , div [ class "" ]
-                [ myCode
-                ]
             ]
 
     else
@@ -81,6 +72,16 @@ codeBlock codeString =
     pre [ class "bg-gray-800 text-white p-4" ]
         [ code [] [ text codeString ]
         ]
+
+
+taskList : List String -> List (Html Msg)
+taskList descriptionList =
+    List.map taskStep descriptionList
+
+
+taskStep : String -> Html Msg
+taskStep description =
+    li [] [ text description ]
 
 
 myCode : Html msg

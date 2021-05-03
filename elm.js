@@ -5161,54 +5161,9 @@ var $author$project$Main$update = F2(
 	});
 var $author$project$Main$Close = {$: 'Close'};
 var $author$project$Main$Open = {$: 'Open'};
-var $elm$html$Html$article = _VirtualDom_node('article');
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$articleView = function (_v0) {
-	return A2(
-		$elm$html$Html$article,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('p-4 w-max-full lg:max-w-screen-md')
-			]),
-		_List_fromArray(
-			[
-				$elm$html$Html$text('aaaaafsadf sadf sdf sda fsdaf sadfda')
-			]));
-};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$core$Debug$log = _Debug_log;
-var $elm$html$Html$code = _VirtualDom_node('code');
-var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$Main$codeBlock = function (codeString) {
-	return A2(
-		$elm$html$Html$pre,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('bg-gray-800 text-white p-4')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$code,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(codeString)
-					]))
-			]));
-};
-var $author$project$Main$myCode = $author$project$Main$codeBlock('package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}\n');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5229,47 +5184,26 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$li = _VirtualDom_node('li');
-var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$taskStep = function (description) {
+	return A2(
+		$elm$html$Html$li,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(description)
+			]));
+};
+var $author$project$Main$taskList = function (descriptionList) {
+	return A2($elm$core$List$map, $author$project$Main$taskStep, descriptionList);
+};
 var $author$project$Main$subView = A2(
 	$elm$html$Html$div,
 	_List_Nil,
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('aaasaadasssaa')
-				])),
-			A2(
-			$elm$html$Html$ul,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$li,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('afffaa')
-						])),
-					A2(
-					$elm$html$Html$li,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('aaa')
-						])),
-					A2(
-					$elm$html$Html$li,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('aaa')
-						]))
-				]))
-		]));
+	$author$project$Main$taskList(
+		_List_fromArray(
+			['aaa', 'bbb', 'ccc', 'ddd'])));
 var $author$project$Main$view = function (model) {
 	return model ? A2(
 		$elm$html$Html$div,
@@ -5296,23 +5230,7 @@ var $author$project$Main$view = function (model) {
 						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 					]),
 				_List_fromArray(
-					[$author$project$Main$subView])),
-				A2(
-				$elm$html$Html$h3,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('odddddutpttt')
-					])),
-				$author$project$Main$articleView(model),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('')
-					]),
-				_List_fromArray(
-					[$author$project$Main$myCode]))
+					[$author$project$Main$subView]))
 			])) : A2(
 		$elm$html$Html$div,
 		_List_Nil,

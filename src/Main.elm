@@ -4,6 +4,7 @@ import Browser
 import Html exposing (Html, article, div, h3, li, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
+import Markdown
 
 
 main : Program () Model Msg
@@ -55,21 +56,32 @@ view model =
         div []
             [ h3 [ onClick Close ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "overflow" "hidden" ] [ subView ]
-            , h3 [] [ text "outpttt" ]
+            , h3 [] [ text "odddddutpttt" ]
             , articleView model
+            , myCode
             ]
 
     else
         div []
             [ h3 [ onClick Open ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView ]
-            , h3 [] [ text "outpttt" ]
+            , h3 [] [ text "outspssssssttt" ]
             ]
-
-
-commandView : string
 
 
 articleView : Model -> Html Msg
 articleView _ =
     article [ class "p-4 w-max-full lg:max-w-screen-md" ] [ text "aaaaafsadf sadf sdf sda fsdaf sadfda" ]
+
+
+myCode : Html msg
+myCode =
+    Markdown.toHtml []
+        """```go
+package main
+import "fmt"
+func main() {
+    fmt.Println("hello world")
+}
+
+    ```"""

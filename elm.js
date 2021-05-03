@@ -5183,10 +5183,31 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$TaskStepButton = function (a) {
+	return {$: 'TaskStepButton', a: a};
+};
 var $author$project$Main$TaskStepDescription = function (a) {
 	return {$: 'TaskStepDescription', a: a};
 };
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
 var $elm$html$Html$li = _VirtualDom_node('li');
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$taskStepView = function (step) {
@@ -5202,13 +5223,39 @@ var $author$project$Main$taskStepView = function (step) {
 					]));
 		case 'TaskStepButton':
 			var url = step.a.url;
+			var buttonText = step.a.buttonText;
 			var description = step.a.description;
 			return A2(
 				$elm$html$Html$li,
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(description)
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(description)
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('bg-indigo-400 py-2 px-4 font-bold text-bold text-white')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$href(url)
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(buttonText)
+									]))
+							]))
 					]));
 		default:
 			var codeString = step.a;
@@ -5221,20 +5268,31 @@ var $author$project$Main$taskStepView = function (step) {
 					]));
 	}
 };
+var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$taskListView = function (taskStepList) {
-	return A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList);
+	return A2(
+		$elm$html$Html$ul,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('mx-4 list-disc')
+			]),
+		A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList));
 };
 var $author$project$Main$subView = A2(
 	$elm$html$Html$div,
 	_List_Nil,
-	$author$project$Main$taskListView(
-		_List_fromArray(
-			[
-				$author$project$Main$TaskStepDescription('下記のボタンを押して、Cloud Consoleへ飛びます'),
-				$author$project$Main$TaskStepDescription('下記のスクリーンショットに沿って操作'),
-				$author$project$Main$TaskStepDescription('下記のコマンドを実行して、環境変数を設定します'),
-				$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
-			])));
+	_List_fromArray(
+		[
+			$author$project$Main$taskListView(
+			_List_fromArray(
+				[
+					$author$project$Main$TaskStepButton(
+					{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
+					$author$project$Main$TaskStepDescription('下記のスクリーンショットに沿って操作'),
+					$author$project$Main$TaskStepDescription('下記のコマンドを実行して、環境変数を設定します'),
+					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
+				]))
+		]));
 var $author$project$Main$view = function (model) {
 	return model ? A2(
 		$elm$html$Html$div,

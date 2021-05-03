@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, article, code, div, h3, li, pre, text, ul)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, a, article, button, code, div, h3, li, p, pre, text, ul)
+import Html.Attributes exposing (class, href, style)
 import Html.Events exposing (onClick)
 
 
@@ -43,13 +43,17 @@ update msg _ =
 subView : Html Msg
 subView =
     div []
-        (taskListView
-            [ TaskStepDescription "下記のボタンを押して、Cloud Consoleへ飛びます"
+        [ taskListView
+            [ TaskStepButton
+                { url = "https://google.com"
+                , buttonText = "プロジェクトの設定"
+                , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
+                }
             , TaskStepDescription "下記のスクリーンショットに沿って操作"
             , TaskStepDescription "下記のコマンドを実行して、環境変数を設定します"
             , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
             ]
-        )
+        ]
 
 
 view : Model -> Html Msg
@@ -80,15 +84,20 @@ codeBlock codeString =
         ]
 
 
-taskListView : List TaskStep -> List (Html Msg)
+taskListView : List TaskStep -> Html Msg
 taskListView taskStepList =
-    List.map taskStepView taskStepList
+    ul [ class "mx-4 list-disc" ]
+        (List.map
+            taskStepView
+            taskStepList
+        )
 
 
 type TaskStep
     = TaskStepDescription String
     | TaskStepButton
         { url : String
+        , buttonText : String
         , description : String
         }
     | TaskStepCode String
@@ -100,8 +109,11 @@ taskStepView step =
         TaskStepDescription description ->
             li [] [ text description ]
 
-        TaskStepButton { url, description } ->
-            li [] [ text description ]
+        TaskStepButton { url, buttonText, description } ->
+            li []
+                [ p [] [ text description ]
+                , button [ class "bg-indigo-400 py-2 px-4 font-bold text-bold text-white" ] [ a [ href url ] [ text buttonText ] ]
+                ]
 
         TaskStepCode codeString ->
             li [] [ text codeString ]

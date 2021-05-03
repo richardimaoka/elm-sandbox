@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, div, h3, li, text, ul)
+import Html exposing (Html, article, div, h3, li, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 
@@ -43,7 +43,7 @@ subView : Html Msg
 subView =
     div []
         [ div []
-            [ text "aaaaaaaa" ]
+            [ text "aaasaadaaa" ]
         , ul []
             [ li [] [ text "afffaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
         ]
@@ -56,6 +56,7 @@ view model =
             [ h3 [ onClick Close ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "overflow" "hidden" ] [ subView ]
             , h3 [] [ text "outpttt" ]
+            , articleView model
             ]
 
     else
@@ -64,3 +65,11 @@ view model =
             , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView ]
             , h3 [] [ text "outpttt" ]
             ]
+
+
+commandView : string
+
+
+articleView : Model -> Html Msg
+articleView _ =
+    article [ class "p-4 w-max-full lg:max-w-screen-md" ] [ text "aaaaafsadf sadf sdf sda fsdaf sadfda" ]

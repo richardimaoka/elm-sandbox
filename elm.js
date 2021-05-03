@@ -5224,7 +5224,7 @@ var $author$project$Main$subView = A2(
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('aaa')
+							$elm$html$Html$text('afffaa')
 						])),
 					A2(
 					$elm$html$Html$li,
@@ -5268,7 +5268,14 @@ var $author$project$Main$view = function (model) {
 						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 					]),
 				_List_fromArray(
-					[$author$project$Main$subView]))
+					[$author$project$Main$subView])),
+				A2(
+				$elm$html$Html$h3,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('outpttt')
+					]))
 			])) : A2(
 		$elm$html$Html$div,
 		_List_Nil,
@@ -5295,7 +5302,14 @@ var $author$project$Main$view = function (model) {
 						A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 					]),
 				_List_fromArray(
-					[$author$project$Main$subView]))
+					[$author$project$Main$subView])),
+				A2(
+				$elm$html$Html$h3,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('outpttt')
+					]))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(

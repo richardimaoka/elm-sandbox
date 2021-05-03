@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html, div, h3, li, text, ul)
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 
 
@@ -45,7 +45,7 @@ subView =
         [ div []
             [ text "aaa" ]
         , ul []
-            [ li [] [ text "aaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
+            [ li [] [ text "afffaa" ], li [] [ text "aaa" ], li [] [ text "aaa" ] ]
         ]
 
 
@@ -55,10 +55,12 @@ view model =
         div []
             [ h3 [ onClick Close ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "overflow" "hidden" ] [ subView ]
+            , h3 [] [ text "outpttt" ]
             ]
 
     else
         div []
             [ h3 [ onClick Open ] [ Debug.log "wwwaaa" (text "title") ]
             , div [ style "max-height" "0px", style "overflow" "hidden" ] [ subView ]
+            , h3 [] [ text "outpttt" ]
             ]

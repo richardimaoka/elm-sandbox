@@ -5186,6 +5186,9 @@ var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Main$TaskStepButton = function (a) {
 	return {$: 'TaskStepButton', a: a};
 };
+var $author$project$Main$TaskStepCode = function (a) {
+	return {$: 'TaskStepCode', a: a};
+};
 var $author$project$Main$TaskStepDescription = function (a) {
 	return {$: 'TaskStepDescription', a: a};
 };
@@ -5203,6 +5206,28 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$code = _VirtualDom_node('code');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$codeBlock = function (codeString) {
+	return A2(
+		$elm$html$Html$pre,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('bg-gray-800 text-white p-4')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$code,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(codeString)
+					]))
+			]));
+};
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5218,8 +5243,6 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$taskStepView = function (step) {
 	switch (step.$) {
 		case 'TaskStepDescription':
@@ -5274,7 +5297,14 @@ var $author$project$Main$taskStepView = function (step) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(codeString)
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('下記のコードを実行してください')
+							])),
+						$author$project$Main$codeBlock(codeString)
 					]));
 		default:
 			var imageUrls = step.a;
@@ -5326,7 +5356,7 @@ var $author$project$Main$subView = A2(
 					$author$project$Main$TaskStepScreenshots(
 					_List_fromArray(
 						['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
-					$author$project$Main$TaskStepDescription('下記のコマンドを実行して、環境変数を設定します'),
+					$author$project$Main$TaskStepCode('export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH'),
 					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
 				]))
 		]));

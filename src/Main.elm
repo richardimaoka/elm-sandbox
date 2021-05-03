@@ -54,7 +54,7 @@ subView =
                 , "https://cloud.google.com/docs/images/overview/console.png"
                 , "https://cloud.google.com/docs/images/overview/console.png"
                 ]
-            , TaskStepDescription "下記のコマンドを実行して、環境変数を設定します"
+            , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
             , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
             ]
         ]
@@ -121,7 +121,10 @@ taskStepView step =
                 ]
 
         TaskStepCode codeString ->
-            li [] [ text codeString ]
+            li []
+                [ p [] [ text "下記のコードを実行してください" ]
+                , codeBlock codeString
+                ]
 
         TaskStepScreenshots imageUrls ->
             let

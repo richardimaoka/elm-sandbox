@@ -5186,7 +5186,7 @@ var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$taskStep = function (description) {
+var $author$project$Main$taskStepView = function (description) {
 	return A2(
 		$elm$html$Html$li,
 		_List_Nil,
@@ -5196,7 +5196,7 @@ var $author$project$Main$taskStep = function (description) {
 			]));
 };
 var $author$project$Main$taskList = function (descriptionList) {
-	return A2($elm$core$List$map, $author$project$Main$taskStep, descriptionList);
+	return A2($elm$core$List$map, $author$project$Main$taskStepView, descriptionList);
 };
 var $author$project$Main$subView = A2(
 	$elm$html$Html$div,

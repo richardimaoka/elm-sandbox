@@ -76,11 +76,20 @@ codeBlock codeString =
 
 taskList : List String -> List (Html Msg)
 taskList descriptionList =
-    List.map taskStep descriptionList
+    List.map taskStepView descriptionList
 
 
-taskStep : String -> Html Msg
-taskStep description =
+type TaskStep
+    = TaskStepDescription String
+    | TaskStepButton
+        { url : String
+        , description : String
+        }
+    | TaskStepCode String
+
+
+taskStepView : String -> Html Msg
+taskStepView description =
     li [] [ text description ]
 
 

@@ -22,6 +22,23 @@ type alias Model =
     }
 
 
+type alias Task =
+    { title : String
+    , taskSteps : List TaskStep
+    }
+
+
+type TaskStep
+    = TaskStepDescription String
+    | TaskStepButton
+        { url : String
+        , buttonText : String
+        , description : String
+        }
+    | TaskStepCode String
+    | TaskStepScreenshots (List String)
+
+
 init : flags -> ( Model, Cmd Msg )
 init _ =
     ( { taskSteps =
@@ -78,15 +95,27 @@ view model =
     in
     article [ class "p-4 w-max-full lg:max-w-screen-md" ]
         [ section [ class "border-2 mb-2 shadow-md" ]
-            [ sectionTitle "始める前に"
+            [ sectionTitle model.open "始める前に"
             , div styles [ subView model.taskSteps ]
             ]
         ]
 
 
-sectionTitle : String -> Html Msg
-sectionTitle title =
-    h3 [ class "text-2xl mb-2", onClick Close ] [ text title ]
+sectionTitle : Bool -> String -> Html Msg
+sectionTitle isOpen title =
+    div [ class "flex flex-row justify-between mx-4 mb-2" ]
+        [ h3 [ class "text-2xl mb-2", onClick Close ] [ text title ]
+        , button
+            [ onClick
+                (if isOpen then
+                    Close
+
+                 else
+                    Open
+                )
+            ]
+            [ text "expand" ]
+        ]
 
 
 codeBlock : String -> Html msg
@@ -103,17 +132,6 @@ taskListView taskStepList =
             taskStepView
             taskStepList
         )
-
-
-type TaskStep
-    = TaskStepDescription String
-    | TaskStepButton
-        { url : String
-        , buttonText : String
-        , description : String
-        }
-    | TaskStepCode String
-    | TaskStepScreenshots (List String)
 
 
 taskStepView : TaskStep -> Html Msg

@@ -5206,6 +5206,8 @@ var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$section = _VirtualDom_node('section');
 var $author$project$Main$Close = {$: 'Close'};
+var $author$project$Main$Open = {$: 'Open'};
+var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -5226,23 +5228,43 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$sectionTitle = function (title) {
-	return A2(
-		$elm$html$Html$h3,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('text-2xl mb-2'),
-				$elm$html$Html$Events$onClick($author$project$Main$Close)
-			]),
-		_List_fromArray(
-			[
-				$elm$html$Html$text(title)
-			]));
-};
+var $author$project$Main$sectionTitle = F2(
+	function (isOpen, title) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('flex flex-row justify-between mx-4 mb-2')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h3,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('text-2xl mb-2'),
+							$elm$html$Html$Events$onClick($author$project$Main$Close)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(title)
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(
+							isOpen ? $author$project$Main$Close : $author$project$Main$Open)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('expand')
+						]))
+				]));
+	});
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $author$project$Main$codeBlock = function (codeString) {
@@ -5412,7 +5434,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$sectionTitle('始める前に'),
+						A2($author$project$Main$sectionTitle, model.open, '始める前に'),
 						A2(
 						$elm$html$Html$div,
 						styles,

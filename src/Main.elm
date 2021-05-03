@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, article, div, h3, li, text, ul)
+import Html exposing (Html, article, code, div, h3, li, pre, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Markdown
@@ -9,10 +9,11 @@ import Markdown
 
 main : Program () Model Msg
 main =
-    Browser.sandbox
+    Browser.element
         { init = init
         , update = update
         , view = view
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -20,9 +21,9 @@ type alias Model =
     Bool
 
 
-init : Model
-init =
-    True
+init : flags -> ( Model, Cmd Msg )
+init _ =
+    ( True, Cmd.none )
 
 
 type Msg
@@ -30,14 +31,14 @@ type Msg
     | Close
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg _ =
     case msg of
         Open ->
-            True
+            ( True, Cmd.none )
 
         Close ->
-            False
+            ( False, Cmd.none )
 
 
 subView : Html Msg
@@ -78,8 +79,9 @@ articleView _ =
 
 myCode : Html msg
 myCode =
-    Markdown.toHtml []
-        """```go
+    pre []
+        [ code []
+            [ text """
 package main
 
 import "fmt"
@@ -87,4 +89,6 @@ import "fmt"
 func main() {
     fmt.Println("hello world")
 }
-```"""
+"""
+            ]
+        ]

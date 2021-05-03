@@ -5189,6 +5189,9 @@ var $author$project$Main$TaskStepButton = function (a) {
 var $author$project$Main$TaskStepDescription = function (a) {
 	return {$: 'TaskStepDescription', a: a};
 };
+var $author$project$Main$TaskStepScreenshots = function (a) {
+	return {$: 'TaskStepScreenshots', a: a};
+};
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5206,8 +5209,15 @@ var $elm$html$Html$Attributes$href = function (url) {
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
+var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$taskStepView = function (step) {
@@ -5257,7 +5267,7 @@ var $author$project$Main$taskStepView = function (step) {
 									]))
 							]))
 					]));
-		default:
+		case 'TaskStepCode':
 			var codeString = step.a;
 			return A2(
 				$elm$html$Html$li,
@@ -5266,6 +5276,31 @@ var $author$project$Main$taskStepView = function (step) {
 					[
 						$elm$html$Html$text(codeString)
 					]));
+		default:
+			var imageUrls = step.a;
+			var screenshotList = A2(
+				$elm$core$List$map,
+				function (url) {
+					return A2(
+						$elm$html$Html$img,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$src(url)
+							]),
+						_List_Nil);
+				},
+				imageUrls);
+			var combined = A2(
+				$elm$core$List$cons,
+				A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('下記のスクリーンショットに沿って操作してください')
+						])),
+				screenshotList);
+			return A2($elm$html$Html$li, _List_Nil, combined);
 	}
 };
 var $elm$html$Html$ul = _VirtualDom_node('ul');
@@ -5288,7 +5323,9 @@ var $author$project$Main$subView = A2(
 				[
 					$author$project$Main$TaskStepButton(
 					{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
-					$author$project$Main$TaskStepDescription('下記のスクリーンショットに沿って操作'),
+					$author$project$Main$TaskStepScreenshots(
+					_List_fromArray(
+						['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
 					$author$project$Main$TaskStepDescription('下記のコマンドを実行して、環境変数を設定します'),
 					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
 				]))

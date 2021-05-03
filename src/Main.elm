@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, a, article, button, code, div, h3, li, p, pre, text, ul)
-import Html.Attributes exposing (class, href, style)
+import Html exposing (Html, a, article, button, code, div, h3, img, li, p, pre, text, ul)
+import Html.Attributes exposing (class, href, src, style)
 import Html.Events exposing (onClick)
 
 
@@ -49,7 +49,11 @@ subView =
                 , buttonText = "プロジェクトの設定"
                 , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
                 }
-            , TaskStepDescription "下記のスクリーンショットに沿って操作"
+            , TaskStepScreenshots
+                [ "https://cloud.google.com/docs/images/overview/console.png"
+                , "https://cloud.google.com/docs/images/overview/console.png"
+                , "https://cloud.google.com/docs/images/overview/console.png"
+                ]
             , TaskStepDescription "下記のコマンドを実行して、環境変数を設定します"
             , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
             ]
@@ -101,6 +105,7 @@ type TaskStep
         , description : String
         }
     | TaskStepCode String
+    | TaskStepScreenshots (List String)
 
 
 taskStepView : TaskStep -> Html Msg
@@ -117,6 +122,16 @@ taskStepView step =
 
         TaskStepCode codeString ->
             li [] [ text codeString ]
+
+        TaskStepScreenshots imageUrls ->
+            let
+                screenshotList =
+                    List.map (\url -> img [ src url ] []) imageUrls
+
+                combined =
+                    p [] [ text "下記のスクリーンショットに沿って操作してください" ] :: screenshotList
+            in
+            li [] combined
 
 
 myCode : Html msg

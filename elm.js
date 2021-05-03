@@ -5190,22 +5190,25 @@ var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$core$Debug$log = _Debug_log;
 var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$Main$myCode = A2(
-	$elm$html$Html$pre,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('bg-gray-800 text-white p-4')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$code,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('\npackage main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}\n')
-				]))
-		]));
+var $author$project$Main$codeBlock = function (codeString) {
+	return A2(
+		$elm$html$Html$pre,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('bg-gray-800 text-white p-4')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$code,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(codeString)
+					]))
+			]));
+};
+var $author$project$Main$myCode = $author$project$Main$codeBlock('package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}\n');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };

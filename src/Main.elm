@@ -76,12 +76,16 @@ articleView _ =
     article [ class "p-4 w-max-full lg:max-w-screen-md" ] [ text "aaaaafsadf sadf sdf sda fsdaf sadfda" ]
 
 
+codeBlock : String -> Html msg
+codeBlock codeString =
+    pre [ class "bg-gray-800 text-white p-4" ]
+        [ code [] [ text codeString ]
+        ]
+
+
 myCode : Html msg
 myCode =
-    pre [ class "bg-gray-800 text-white p-4" ]
-        [ code []
-            [ text """
-package main
+    codeBlock """package main
 
 import "fmt"
 
@@ -89,5 +93,3 @@ func main() {
     fmt.Println("hello world")
 }
 """
-            ]
-        ]

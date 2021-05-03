@@ -20,8 +20,10 @@
     <div id="elm-app"></div>
     <script src="elm.js"></script>
     <script type="text/javascript">
-      Elm.Main.init({ node: document.getElementById("elm-app") });
-      hljs.highlightAll();
+      var app = Elm.Main.init({ node: document.getElementById("elm-app") });
+      app.ports.triggerHighlightJs.subscribe(function (data) {
+        hljs.highlightAll();
+      });
     </script>
   </body>
 </html>

@@ -5183,27 +5183,58 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$TaskStepDescription = function (a) {
+	return {$: 'TaskStepDescription', a: a};
+};
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$taskStepView = function (description) {
-	return A2(
-		$elm$html$Html$li,
-		_List_Nil,
-		_List_fromArray(
-			[
-				$elm$html$Html$text(description)
-			]));
+var $author$project$Main$taskStepView = function (step) {
+	switch (step.$) {
+		case 'TaskStepDescription':
+			var description = step.a;
+			return A2(
+				$elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(description)
+					]));
+		case 'TaskStepButton':
+			var url = step.a.url;
+			var description = step.a.description;
+			return A2(
+				$elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(description)
+					]));
+		default:
+			var codeString = step.a;
+			return A2(
+				$elm$html$Html$li,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(codeString)
+					]));
+	}
 };
-var $author$project$Main$taskList = function (descriptionList) {
-	return A2($elm$core$List$map, $author$project$Main$taskStepView, descriptionList);
+var $author$project$Main$taskListView = function (taskStepList) {
+	return A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList);
 };
 var $author$project$Main$subView = A2(
 	$elm$html$Html$div,
 	_List_Nil,
-	$author$project$Main$taskList(
+	$author$project$Main$taskListView(
 		_List_fromArray(
-			['aaa', 'bbb', 'ccc', 'ddd'])));
+			[
+				$author$project$Main$TaskStepDescription('下記のボタンを押して、Cloud Consoleへ飛びます'),
+				$author$project$Main$TaskStepDescription('下記のスクリーンショットに沿って操作'),
+				$author$project$Main$TaskStepDescription('下記のコマンドを実行して、環境変数を設定します'),
+				$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
+			])));
 var $author$project$Main$view = function (model) {
 	return model ? A2(
 		$elm$html$Html$div,

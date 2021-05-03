@@ -43,7 +43,13 @@ update msg _ =
 subView : Html Msg
 subView =
     div []
-        (taskList [ "aaa", "bbb", "ccc", "ddd" ])
+        (taskListView
+            [ TaskStepDescription "下記のボタンを押して、Cloud Consoleへ飛びます"
+            , TaskStepDescription "下記のスクリーンショットに沿って操作"
+            , TaskStepDescription "下記のコマンドを実行して、環境変数を設定します"
+            , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
+            ]
+        )
 
 
 view : Model -> Html Msg
@@ -74,9 +80,9 @@ codeBlock codeString =
         ]
 
 
-taskList : List String -> List (Html Msg)
-taskList descriptionList =
-    List.map taskStepView descriptionList
+taskListView : List TaskStep -> List (Html Msg)
+taskListView taskStepList =
+    List.map taskStepView taskStepList
 
 
 type TaskStep
@@ -88,9 +94,17 @@ type TaskStep
     | TaskStepCode String
 
 
-taskStepView : String -> Html Msg
-taskStepView description =
-    li [] [ text description ]
+taskStepView : TaskStep -> Html Msg
+taskStepView step =
+    case step of
+        TaskStepDescription description ->
+            li [] [ text description ]
+
+        TaskStepButton { url, description } ->
+            li [] [ text description ]
+
+        TaskStepCode codeString ->
+            li [] [ text codeString ]
 
 
 myCode : Html msg

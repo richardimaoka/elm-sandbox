@@ -5318,7 +5318,7 @@ var $elm$core$Maybe$isJust = function (maybe) {
 };
 var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
 var $elm_explorations$markdown$Markdown$toHtml = $elm_explorations$markdown$Markdown$toHtmlWith($elm_explorations$markdown$Markdown$defaultOptions);
-var $author$project$Main$myCode = A2($elm_explorations$markdown$Markdown$toHtml, _List_Nil, '```go\npackage main\nimport "fmt"\nfunc main() {\n    fmt.Println("hello world")\n}\n\n    ```');
+var $author$project$Main$myCode = A2($elm_explorations$markdown$Markdown$toHtml, _List_Nil, '```go\npackage main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}\n```');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };

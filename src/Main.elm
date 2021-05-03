@@ -58,7 +58,9 @@ view model =
             , div [ style "overflow" "hidden" ] [ subView ]
             , h3 [] [ text "odddddutpttt" ]
             , articleView model
-            , myCode
+            , div [ class "" ]
+                [ myCode
+                ]
             ]
 
     else
@@ -79,9 +81,10 @@ myCode =
     Markdown.toHtml []
         """```go
 package main
+
 import "fmt"
+
 func main() {
     fmt.Println("hello world")
 }
-
-    ```"""
+```"""

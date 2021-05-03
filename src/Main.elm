@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Array exposing (Array)
+import Array.Extra
 import Browser
 import Html exposing (Html, a, article, button, code, div, h3, img, li, p, pre, section, text, ul)
 import Html.Attributes exposing (class, href, src, style)
@@ -17,10 +18,18 @@ main =
         }
 
 
+init : flags -> ( Model, Cmd Msg )
+init _ =
+    ( { title = "my first task page"
+      , tasks = initTasks
+      }
+    , Cmd.none
+    )
+
+
 type alias Model =
-    { id : String
-    , taskSteps : TaskSteps
-    , open : Bool
+    { title : String
+    , tasks : Tasks
     }
 
 
@@ -30,6 +39,54 @@ type alias Task =
     , taskSteps : TaskSteps
     , isOpen : Bool
     }
+
+
+type alias Tasks =
+    Array Task
+
+
+tasksFromList : List Task -> Tasks
+tasksFromList list =
+    Array.fromList list
+
+
+tasksToList : Tasks -> List Task
+tasksToList tasks =
+    Array.toList tasks
+
+
+tasksOpen : String -> Tasks -> Tasks
+tasksOpen id tasks =
+    case findRecursive (\task -> task.id == id) 0 tasks of
+        Just index ->
+            Array.Extra.update index (\task -> { task | isOpen = True }) tasks
+
+        Nothing ->
+            tasks
+
+
+tasksClose : String -> Tasks -> Tasks
+tasksClose id tasks =
+    case findRecursive (\task -> task.id == id) 0 tasks of
+        Just index ->
+            Array.Extra.update index (\task -> { task | isOpen = False }) tasks
+
+        Nothing ->
+            tasks
+
+
+findRecursive : (a -> Bool) -> Int -> Array a -> Maybe Int
+findRecursive predicate currentIndex array =
+    let
+        maybeIndex =
+            \currentValue ->
+                if predicate currentValue then
+                    Just currentIndex
+
+                else
+                    findRecursive predicate (currentIndex + 1) array
+    in
+    Maybe.andThen maybeIndex (Array.get currentIndex array)
 
 
 type TaskStep
@@ -43,14 +100,15 @@ type TaskStep
     | TaskStepScreenshots (List String)
 
 
-init : flags -> ( Model, Cmd Msg )
-init _ =
-    ( { id = "aaaaa"
-      , open = True
-      , taskSteps = taskSteps1
-      }
-    , Cmd.none
-    )
+initTasks : Tasks
+initTasks =
+    tasksFromList
+        [ { id = "aaaa"
+          , title = "始める前に"
+          , isOpen = True
+          , taskSteps = taskSteps1
+          }
+        ]
 
 
 type alias TaskSteps =
@@ -94,35 +152,34 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Open id ->
-            if id == model.id then
-                ( { model | open = True }, Cmd.none )
-
-            else
-                ( model, Cmd.none )
+            ( { model | tasks = tasksOpen id model.tasks }, Cmd.none )
 
         Close id ->
-            if id == model.id then
-                ( { model | open = False }, Cmd.none )
-
-            else
-                ( model, Cmd.none )
+            ( { model | tasks = tasksClose id model.tasks }, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
+    article [ class "p-4 w-max-full lg:max-w-screen-md" ]
+        (List.map
+            taskView
+            (tasksToList model.tasks)
+        )
+
+
+taskView : Task -> Html Msg
+taskView task =
     let
         styles =
-            if model.open then
+            if task.isOpen then
                 [ style "overflow" "hidden" ]
 
             else
                 [ style "max-height" "0px", style "overflow" "hidden" ]
     in
-    article [ class "p-4 w-max-full lg:max-w-screen-md" ]
-        [ section [ class "border-2 mb-2 shadow-md" ]
-            [ sectionTitle model.id model.open "始める前に"
-            , div styles [ taskListView model.taskSteps ]
-            ]
+    section [ class "border-2 mb-2 shadow-md" ]
+        [ sectionTitle task.id task.isOpen "始める前に"
+        , div styles [ taskListView task.taskSteps ]
         ]
 
 

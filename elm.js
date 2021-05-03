@@ -5144,6 +5144,8 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$TaskStepButton = function (a) {
 	return {$: 'TaskStepButton', a: a};
 };
@@ -5156,24 +5158,58 @@ var $author$project$Main$TaskStepDescription = function (a) {
 var $author$project$Main$TaskStepScreenshots = function (a) {
 	return {$: 'TaskStepScreenshots', a: a};
 };
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Array$fromListHelp = F3(
+	function (list, nodeList, nodeListSize) {
+		fromListHelp:
+		while (true) {
+			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, list);
+			var jsArray = _v0.a;
+			var remainingItems = _v0.b;
+			if (_Utils_cmp(
+				$elm$core$Elm$JsArray$length(jsArray),
+				$elm$core$Array$branchFactor) < 0) {
+				return A2(
+					$elm$core$Array$builderToArray,
+					true,
+					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
+			} else {
+				var $temp$list = remainingItems,
+					$temp$nodeList = A2(
+					$elm$core$List$cons,
+					$elm$core$Array$Leaf(jsArray),
+					nodeList),
+					$temp$nodeListSize = nodeListSize + 1;
+				list = $temp$list;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue fromListHelp;
+			}
+		}
+	});
+var $elm$core$Array$fromList = function (list) {
+	if (!list.b) {
+		return $elm$core$Array$empty;
+	} else {
+		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
+	}
+};
+var $author$project$Main$taskStepsFromList = function (list) {
+	return $elm$core$Array$fromList(list);
+};
+var $author$project$Main$taskSteps1 = $author$project$Main$taskStepsFromList(
+	_List_fromArray(
+		[
+			$author$project$Main$TaskStepButton(
+			{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
+			$author$project$Main$TaskStepScreenshots(
+			_List_fromArray(
+				['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
+			$author$project$Main$TaskStepCode('export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH'),
+			$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
+		]));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{
-			id: 'aaaaa',
-			open: true,
-			taskSteps: _List_fromArray(
-				[
-					$author$project$Main$TaskStepButton(
-					{buttonText: 'プロジェクトの設定', description: '下記のボタンを押して、Cloud Consoleへ飛びます', url: 'https://google.com'}),
-					$author$project$Main$TaskStepScreenshots(
-					_List_fromArray(
-						['https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png', 'https://cloud.google.com/docs/images/overview/console.png'])),
-					$author$project$Main$TaskStepCode('export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH'),
-					$author$project$Main$TaskStepDescription('Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。')
-				])
-		},
+		{id: 'aaaaa', open: true, taskSteps: $author$project$Main$taskSteps1},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5396,24 +5432,21 @@ var $author$project$Main$taskStepView = function (step) {
 			return A2($elm$html$Html$li, _List_Nil, combined);
 	}
 };
+var $author$project$Main$taskStepsToList = function (taskSteps) {
+	return $elm$core$Array$toList(taskSteps);
+};
 var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$Main$taskListView = function (taskStepList) {
+var $author$project$Main$taskListView = function (taskSteps) {
 	return A2(
 		$elm$html$Html$ul,
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('mx-8 list-disc')
 			]),
-		A2($elm$core$List$map, $author$project$Main$taskStepView, taskStepList));
-};
-var $author$project$Main$subView = function (taskStepList) {
-	return A2(
-		$elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				$author$project$Main$taskListView(taskStepList)
-			]));
+		A2(
+			$elm$core$List$map,
+			$author$project$Main$taskStepView,
+			$author$project$Main$taskStepsToList(taskSteps)));
 };
 var $author$project$Main$view = function (model) {
 	var styles = model.open ? _List_fromArray(
@@ -5446,7 +5479,7 @@ var $author$project$Main$view = function (model) {
 						styles,
 						_List_fromArray(
 							[
-								$author$project$Main$subView(model.taskSteps)
+								$author$project$Main$taskListView(model.taskSteps)
 							]))
 					]))
 			]));

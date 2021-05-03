@@ -19,7 +19,7 @@ main =
 
 type alias Model =
     { id : String
-    , taskSteps : List TaskStep
+    , taskSteps : TaskSteps
     , open : Bool
     }
 
@@ -27,7 +27,7 @@ type alias Model =
 type alias Task =
     { id : String
     , title : String
-    , taskSteps : Array TaskStep
+    , taskSteps : TaskSteps
     , isOpen : Bool
     }
 
@@ -46,24 +46,43 @@ type TaskStep
 init : flags -> ( Model, Cmd Msg )
 init _ =
     ( { id = "aaaaa"
-      , taskSteps =
-            [ TaskStepButton
-                { url = "https://google.com"
-                , buttonText = "プロジェクトの設定"
-                , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
-                }
-            , TaskStepScreenshots
-                [ "https://cloud.google.com/docs/images/overview/console.png"
-                , "https://cloud.google.com/docs/images/overview/console.png"
-                , "https://cloud.google.com/docs/images/overview/console.png"
-                ]
-            , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
-            , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
-            ]
       , open = True
+      , taskSteps = taskSteps1
       }
     , Cmd.none
     )
+
+
+type alias TaskSteps =
+    Array TaskStep
+
+
+taskStepsFromList : List TaskStep -> TaskSteps
+taskStepsFromList list =
+    Array.fromList list
+
+
+taskStepsToList : TaskSteps -> List TaskStep
+taskStepsToList taskSteps =
+    Array.toList taskSteps
+
+
+taskSteps1 : TaskSteps
+taskSteps1 =
+    taskStepsFromList
+        [ TaskStepButton
+            { url = "https://google.com"
+            , buttonText = "プロジェクトの設定"
+            , description = "下記のボタンを押して、Cloud Consoleへ飛びます"
+            }
+        , TaskStepScreenshots
+            [ "https://cloud.google.com/docs/images/overview/console.png"
+            , "https://cloud.google.com/docs/images/overview/console.png"
+            , "https://cloud.google.com/docs/images/overview/console.png"
+            ]
+        , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
+        , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
+        ]
 
 
 type Msg
@@ -89,13 +108,6 @@ update msg model =
                 ( model, Cmd.none )
 
 
-subView : List TaskStep -> Html Msg
-subView taskStepList =
-    div []
-        [ taskListView taskStepList
-        ]
-
-
 view : Model -> Html Msg
 view model =
     let
@@ -109,7 +121,7 @@ view model =
     article [ class "p-4 w-max-full lg:max-w-screen-md" ]
         [ section [ class "border-2 mb-2 shadow-md" ]
             [ sectionTitle model.id model.open "始める前に"
-            , div styles [ subView model.taskSteps ]
+            , div styles [ taskListView model.taskSteps ]
             ]
         ]
 
@@ -138,12 +150,12 @@ codeBlock codeString =
         ]
 
 
-taskListView : List TaskStep -> Html Msg
-taskListView taskStepList =
+taskListView : TaskSteps -> Html Msg
+taskListView taskSteps =
     ul [ class "mx-8 list-disc" ]
         (List.map
             taskStepView
-            taskStepList
+            (taskStepsToList taskSteps)
         )
 
 
@@ -174,15 +186,3 @@ taskStepView step =
                     p [] [ text "下記のスクリーンショットに沿って操作してください" ] :: screenshotList
             in
             li [] combined
-
-
-myCode : Html msg
-myCode =
-    codeBlock """package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("hello world")
-}
-"""

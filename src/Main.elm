@@ -22,12 +22,12 @@ initTasks =
     tasksFromList
         [ { id = "prerequisites"
           , title = "Prerequisites"
-          , isOpen = False
+          , isExpanded = False
           , taskSteps = prerequisiteSteps
           }
         , { id = "aaaa"
           , title = "始める前に"
-          , isOpen = True
+          , isExpanded = True
           , taskSteps = taskSteps1
           }
         ]
@@ -88,7 +88,7 @@ type alias Task =
     { id : String
     , title : String
     , taskSteps : TaskSteps
-    , isOpen : Bool
+    , isExpanded : Bool
     }
 
 
@@ -106,14 +106,14 @@ tasksToList tasks =
     Array.toList tasks
 
 
-tasksOpen : String -> Tasks -> Tasks
-tasksOpen id tasks =
-    findUpdate (\task -> task.id == id) (\task -> { task | isOpen = True }) tasks
+tasksExpand : String -> Tasks -> Tasks
+tasksExpand id tasks =
+    findUpdate (\task -> task.id == id) (\task -> { task | isExpanded = True }) tasks
 
 
-tasksClose : String -> Tasks -> Tasks
-tasksClose id tasks =
-    findUpdate (\task -> task.id == id) (\task -> { task | isOpen = False }) tasks
+tasksCollapse : String -> Tasks -> Tasks
+tasksCollapse id tasks =
+    findUpdate (\task -> task.id == id) (\task -> { task | isExpanded = False }) tasks
 
 
 findUpdate : (a -> Bool) -> (a -> a) -> Array a -> Array a
@@ -166,18 +166,18 @@ taskStepsToList taskSteps =
 
 
 type Msg
-    = Open String
-    | Close String
+    = Expand String
+    | Collapse String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Open id ->
-            ( { model | tasks = tasksOpen id model.tasks }, Cmd.none )
+        Expand id ->
+            ( { model | tasks = tasksExpand id model.tasks }, Cmd.none )
 
-        Close id ->
-            ( { model | tasks = tasksClose id model.tasks }, Cmd.none )
+        Collapse id ->
+            ( { model | tasks = tasksCollapse id model.tasks }, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -193,32 +193,38 @@ taskView : Task -> Html Msg
 taskView task =
     let
         styles =
-            if task.isOpen then
+            if task.isExpanded then
                 [ style "overflow" "hidden" ]
 
             else
                 [ style "max-height" "0px", style "overflow" "hidden" ]
     in
     section [ class "border-2 mb-2 shadow-md" ]
-        [ sectionTitle task.id task.isOpen task.title
+        [ sectionTitle task.id task.isExpanded task.title
         , div styles [ taskListView task.taskSteps ]
         ]
 
 
 sectionTitle : String -> Bool -> String -> Html Msg
-sectionTitle id isOpen title =
+sectionTitle id isExpanded title =
     div [ class "flex flex-row justify-between mx-4 mb-2" ]
         [ h3 [ class "text-2xl mb-2" ] [ text title ]
         , button
             [ onClick
-                (if isOpen then
-                    Close id
+                (if isExpanded then
+                    Collapse id
 
                  else
-                    Open id
+                    Expand id
                 )
             ]
-            [ text "expand" ]
+            [ text <|
+                if isExpanded then
+                    "collapse"
+
+                else
+                    "expand"
+            ]
         ]
 
 

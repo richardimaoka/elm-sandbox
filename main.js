@@ -5253,8 +5253,8 @@ var $author$project$Main$tasksFromList = function (list) {
 var $author$project$Main$initTasks = $author$project$Main$tasksFromList(
 	_List_fromArray(
 		[
-			{id: 'prerequisites', isOpen: false, taskSteps: $author$project$Main$prerequisiteSteps, title: 'Prerequisites'},
-			{id: 'aaaa', isOpen: true, taskSteps: $author$project$Main$taskSteps1, title: '始める前に'}
+			{id: 'prerequisites', isExpanded: false, taskSteps: $author$project$Main$prerequisiteSteps, title: 'Prerequisites'},
+			{id: 'aaaa', isExpanded: true, taskSteps: $author$project$Main$taskSteps1, title: '始める前に'}
 		]));
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5393,7 +5393,7 @@ var $author$project$Main$findUpdate = F3(
 			return array;
 		}
 	});
-var $author$project$Main$tasksClose = F2(
+var $author$project$Main$tasksCollapse = F2(
 	function (id, tasks) {
 		return A3(
 			$author$project$Main$findUpdate,
@@ -5403,11 +5403,11 @@ var $author$project$Main$tasksClose = F2(
 			function (task) {
 				return _Utils_update(
 					task,
-					{isOpen: false});
+					{isExpanded: false});
 			},
 			tasks);
 	});
-var $author$project$Main$tasksOpen = F2(
+var $author$project$Main$tasksExpand = F2(
 	function (id, tasks) {
 		return A3(
 			$author$project$Main$findUpdate,
@@ -5417,19 +5417,19 @@ var $author$project$Main$tasksOpen = F2(
 			function (task) {
 				return _Utils_update(
 					task,
-					{isOpen: true});
+					{isExpanded: true});
 			},
 			tasks);
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'Open') {
+		if (msg.$ === 'Expand') {
 			var id = msg.a;
 			return _Utils_Tuple2(
 				_Utils_update(
 					model,
 					{
-						tasks: A2($author$project$Main$tasksOpen, id, model.tasks)
+						tasks: A2($author$project$Main$tasksExpand, id, model.tasks)
 					}),
 				$elm$core$Platform$Cmd$none);
 		} else {
@@ -5438,7 +5438,7 @@ var $author$project$Main$update = F2(
 				_Utils_update(
 					model,
 					{
-						tasks: A2($author$project$Main$tasksClose, id, model.tasks)
+						tasks: A2($author$project$Main$tasksCollapse, id, model.tasks)
 					}),
 				$elm$core$Platform$Cmd$none);
 		}
@@ -5455,11 +5455,11 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$section = _VirtualDom_node('section');
-var $author$project$Main$Close = function (a) {
-	return {$: 'Close', a: a};
+var $author$project$Main$Collapse = function (a) {
+	return {$: 'Collapse', a: a};
 };
-var $author$project$Main$Open = function (a) {
-	return {$: 'Open', a: a};
+var $author$project$Main$Expand = function (a) {
+	return {$: 'Expand', a: a};
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
@@ -5483,7 +5483,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$sectionTitle = F3(
-	function (id, isOpen, title) {
+	function (id, isExpanded, title) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5507,11 +5507,12 @@ var $author$project$Main$sectionTitle = F3(
 					_List_fromArray(
 						[
 							$elm$html$Html$Events$onClick(
-							isOpen ? $author$project$Main$Close(id) : $author$project$Main$Open(id))
+							isExpanded ? $author$project$Main$Collapse(id) : $author$project$Main$Expand(id))
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('expand')
+							$elm$html$Html$text(
+							isExpanded ? 'collapse' : 'expand')
 						]))
 				]));
 	});
@@ -5666,7 +5667,7 @@ var $author$project$Main$taskListView = function (taskSteps) {
 			$author$project$Main$taskStepsToList(taskSteps)));
 };
 var $author$project$Main$taskView = function (task) {
-	var styles = task.isOpen ? _List_fromArray(
+	var styles = task.isExpanded ? _List_fromArray(
 		[
 			A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 		]) : _List_fromArray(
@@ -5682,7 +5683,7 @@ var $author$project$Main$taskView = function (task) {
 			]),
 		_List_fromArray(
 			[
-				A3($author$project$Main$sectionTitle, task.id, task.isOpen, task.title),
+				A3($author$project$Main$sectionTitle, task.id, task.isExpanded, task.title),
 				A2(
 				$elm$html$Html$div,
 				styles,

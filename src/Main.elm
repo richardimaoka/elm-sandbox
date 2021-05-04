@@ -8,6 +8,43 @@ import Html.Attributes exposing (class, href, src, style)
 import Html.Events exposing (onClick)
 
 
+main : Program () Model2 Msg2
+main =
+    Browser.element
+        { init = init2
+        , update = update2
+        , view = view2
+        , subscriptions = \_ -> Sub.none
+        }
+
+
+init2 : flags -> ( Model2, Cmd Msg2 )
+init2 _ =
+    ( 2, Cmd.none )
+
+
+update2 : Msg2 -> Model2 -> ( Model2, Cmd Msg2 )
+update2 _ _ =
+    ( 2, Cmd.none )
+
+
+view2 : Model2 -> Html Msg2
+view2 _ =
+    div [] [ text "hi" ]
+
+
+type alias Model2 =
+    Int
+
+
+type alias Msg2 =
+    Int
+
+
+
+---------------------------------
+
+
 init : flags -> ( Model, Cmd Msg )
 init _ =
     ( { title = "my first task page"
@@ -15,6 +52,29 @@ init _ =
       }
     , Cmd.none
     )
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Expand id ->
+            ( { model | tasks = tasksExpand id model.tasks }, Cmd.none )
+
+        Collapse id ->
+            ( { model | tasks = tasksCollapse id model.tasks }, Cmd.none )
+
+
+view : Model -> Html Msg
+view model =
+    article [ class "p-4 w-max-full lg:max-w-screen-md" ]
+        (List.map
+            taskView
+            (tasksToList model.tasks)
+        )
+
+
+
+---------------------------------
 
 
 initTasks : Tasks
@@ -66,16 +126,6 @@ taskSteps1 =
         , TaskStepCode """export GOOGLE_APPLICATION_CREDENTIALS=" KEY_PATH"""
         , TaskStepDescription "Python 開発環境の設定の詳細については、Python 開発環境設定ガイドをご覧ください。"
         ]
-
-
-main : Program () Model Msg
-main =
-    Browser.element
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = \_ -> Sub.none
-        }
 
 
 type alias Model =
@@ -140,6 +190,10 @@ findRecursive predicate currentIndex array =
     Array.get currentIndex array |> Maybe.andThen maybeIndex
 
 
+type Result
+    = InstalledVersion String
+
+
 type TaskStep
     = TaskStepDescription String
     | TaskStepButton
@@ -168,25 +222,6 @@ taskStepsToList taskSteps =
 type Msg
     = Expand String
     | Collapse String
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        Expand id ->
-            ( { model | tasks = tasksExpand id model.tasks }, Cmd.none )
-
-        Collapse id ->
-            ( { model | tasks = tasksCollapse id model.tasks }, Cmd.none )
-
-
-view : Model -> Html Msg
-view model =
-    article [ class "p-4 w-max-full lg:max-w-screen-md" ]
-        (List.map
-            taskView
-            (tasksToList model.tasks)
-        )
 
 
 taskView : Task -> Html Msg

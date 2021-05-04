@@ -8,8 +8,13 @@ import Html.Attributes exposing (class, href, src, style)
 import Html.Events exposing (onClick)
 
 
-main : Program () Model2 Msg2
+main : Program () Model Msg
 main =
+    main0
+
+
+main2 : Program () Model2 Msg2
+main2 =
     Browser.element
         { init = init2
         , update = update2
@@ -43,6 +48,16 @@ type alias Msg2 =
 
 
 ---------------------------------
+
+
+main0 : Program () Model Msg
+main0 =
+    Browser.element
+        { init = init
+        , update = update
+        , view = view
+        , subscriptions = \_ -> Sub.none
+        }
 
 
 init : flags -> ( Model, Cmd Msg )
@@ -82,7 +97,7 @@ initTasks =
     tasksFromList
         [ { id = "prerequisites"
           , title = "Prerequisites"
-          , isExpanded = False
+          , isExpanded = True
           , taskSteps = prerequisiteSteps
           }
         , { id = "aaaa"
@@ -294,6 +309,7 @@ taskStepView step =
         TaskStepCode codeString ->
             li []
                 [ p [] [ text "下記のコードを実行してください" ]
+                , p [] [ codeCopyButton codeString ]
                 , codeBlock codeString
                 ]
 
@@ -306,3 +322,8 @@ taskStepView step =
                     p [] [ text "下記のスクリーンショットに沿って操作してください" ] :: screenshotList
             in
             li [] combined
+
+
+codeCopyButton : String -> Html Msg
+codeCopyButton codeString =
+    div [] [ button [] [ text "copy" ] ]

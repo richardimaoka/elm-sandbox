@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Array exposing (Array)
 import Array.Extra
@@ -78,6 +78,9 @@ update msg model =
         Collapse id ->
             ( { model | tasks = tasksCollapse id model.tasks }, Cmd.none )
 
+        CopyToClipboard copyString ->
+            ( model, copyToClipboard copyString )
+
 
 view : Model -> Html Msg
 view model =
@@ -90,6 +93,9 @@ view model =
 
 
 ---------------------------------
+
+
+port copyToClipboard : String -> Cmd msg
 
 
 initTasks : Tasks
@@ -237,6 +243,7 @@ taskStepsToList taskSteps =
 type Msg
     = Expand String
     | Collapse String
+    | CopyToClipboard String
 
 
 taskView : Task -> Html Msg
@@ -326,4 +333,4 @@ taskStepView step =
 
 codeCopyButton : String -> Html Msg
 codeCopyButton codeString =
-    div [] [ button [] [ text "copy" ] ]
+    div [] [ button [ onClick <| CopyToClipboard codeString ] [ text "copy" ] ]

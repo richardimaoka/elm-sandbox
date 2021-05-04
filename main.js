@@ -5265,6 +5265,8 @@ var $author$project$Main$init = function (_v0) {
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$copyToClipboard = _Platform_outgoingPort('copyToClipboard', $elm$json$Json$Encode$string);
 var $elm$core$Maybe$andThen = F2(
 	function (callback, maybeValue) {
 		if (maybeValue.$ === 'Just') {
@@ -5423,28 +5425,33 @@ var $author$project$Main$tasksExpand = F2(
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'Expand') {
-			var id = msg.a;
-			return _Utils_Tuple2(
-				_Utils_update(
+		switch (msg.$) {
+			case 'Expand':
+				var id = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							tasks: A2($author$project$Main$tasksExpand, id, model.tasks)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'Collapse':
+				var id = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							tasks: A2($author$project$Main$tasksCollapse, id, model.tasks)
+						}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var copyString = msg.a;
+				return _Utils_Tuple2(
 					model,
-					{
-						tasks: A2($author$project$Main$tasksExpand, id, model.tasks)
-					}),
-				$elm$core$Platform$Cmd$none);
-		} else {
-			var id = msg.a;
-			return _Utils_Tuple2(
-				_Utils_update(
-					model,
-					{
-						tasks: A2($author$project$Main$tasksCollapse, id, model.tasks)
-					}),
-				$elm$core$Platform$Cmd$none);
+					$author$project$Main$copyToClipboard(copyString));
 		}
 	});
 var $elm$html$Html$article = _VirtualDom_node('article');
-var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -5539,6 +5546,9 @@ var $author$project$Main$codeBlock = function (codeString) {
 					]))
 			]));
 };
+var $author$project$Main$CopyToClipboard = function (a) {
+	return {$: 'CopyToClipboard', a: a};
+};
 var $author$project$Main$codeCopyButton = function (codeString) {
 	return A2(
 		$elm$html$Html$div,
@@ -5547,7 +5557,11 @@ var $author$project$Main$codeCopyButton = function (codeString) {
 			[
 				A2(
 				$elm$html$Html$button,
-				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick(
+						$author$project$Main$CopyToClipboard(codeString))
+					]),
 				_List_fromArray(
 					[
 						$elm$html$Html$text('copy')

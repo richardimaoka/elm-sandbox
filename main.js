@@ -5556,7 +5556,13 @@ var $author$project$Main$taskStepView = function (step) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(description)
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(description)
+							]))
 					]));
 		case 'TaskStepButton':
 			var url = step.a.url;

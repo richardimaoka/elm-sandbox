@@ -28,6 +28,16 @@ initTasks =
         ]
 
 
+type alias Prerequisite =
+    {}
+
+
+type alias PrerequisiteStep =
+    { command : String
+    , expected : String
+    }
+
+
 taskSteps1 : TaskSteps
 taskSteps1 =
     taskStepsFromList
@@ -220,7 +230,7 @@ taskStepView : TaskStep -> Html Msg
 taskStepView step =
     case step of
         TaskStepDescription description ->
-            li [] [ text description ]
+            li [] [ p [] [ text description ] ]
 
         TaskStepButton { url, buttonText, description } ->
             li []

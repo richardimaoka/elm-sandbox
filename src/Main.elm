@@ -35,7 +35,7 @@ update2 _ model =
 
 view2 : Model2 -> Html Msg2
 view2 model =
-    resultView model
+    taskResultView model
 
 
 type alias Model2 =
@@ -105,11 +105,13 @@ initTasks =
           , title = "Prerequisites"
           , isExpanded = True
           , taskSteps = prerequisiteSteps
+          , result = Nothing
           }
         , { id = "aaaa"
           , title = "始める前に"
           , isExpanded = True
           , taskSteps = taskSteps1
+          , result = Nothing
           }
         ]
 
@@ -168,6 +170,7 @@ type alias Task =
     , title : String
     , taskSteps : TaskSteps
     , isExpanded : Bool
+    , result : Maybe TaskResult
     }
 
 
@@ -257,7 +260,25 @@ type Msg
 taskSectionView : Task -> Html Msg
 taskSectionView task =
     section [ class "border-4 mb-2 shadow-md" ]
-        [ taskView task ]
+        [ sectionTitle task.id task.isExpanded task.title
+        , taskView task
+        , case task.result of
+            Just result ->
+                taskResultView result
+
+            Nothing ->
+                div [] []
+        ]
+
+
+taskResultView : TaskResult -> Html msg
+taskResultView result =
+    case result of
+        InstalledVersion versionString ->
+            li []
+                [ p [] [ text "以下のバージョン以上が表示される" ]
+                , codeBlock versionString
+                ]
 
 
 taskView : Task -> Html Msg
@@ -270,10 +291,7 @@ taskView task =
             else
                 [ style "max-height" "0px", style "overflow" "hidden" ]
     in
-    div []
-        [ sectionTitle task.id task.isExpanded task.title
-        , div styles [ taskListView task.taskSteps ]
-        ]
+    div styles [ taskListView task.taskSteps ]
 
 
 sectionTitle : String -> Bool -> String -> Html Msg
@@ -348,13 +366,3 @@ taskStepView step =
 codeCopyButton : String -> Html Msg
 codeCopyButton codeString =
     div [] [ button [ onClick <| CopyToClipboard codeString ] [ text "copy" ] ]
-
-
-resultView : TaskResult -> Html msg
-resultView result =
-    case result of
-        InstalledVersion versionString ->
-            li []
-                [ p [] [ text "以下のバージョン以上が表示される" ]
-                , codeBlock versionString
-                ]

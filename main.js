@@ -5254,8 +5254,8 @@ var $author$project$Main$tasksFromList = function (list) {
 var $author$project$Main$initTasks = $author$project$Main$tasksFromList(
 	_List_fromArray(
 		[
-			{id: 'prerequisites', isExpanded: true, taskSteps: $author$project$Main$prerequisiteSteps, title: 'Prerequisites'},
-			{id: 'aaaa', isExpanded: true, taskSteps: $author$project$Main$taskSteps1, title: '始める前に'}
+			{id: 'prerequisites', isExpanded: true, result: $elm$core$Maybe$Nothing, taskSteps: $author$project$Main$prerequisiteSteps, title: 'Prerequisites'},
+			{id: 'aaaa', isExpanded: true, result: $elm$core$Maybe$Nothing, taskSteps: $author$project$Main$taskSteps1, title: '始める前に'}
 		]));
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5461,8 +5461,8 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$section = _VirtualDom_node('section');
 var $author$project$Main$Collapse = function (a) {
 	return {$: 'Collapse', a: a};
 };
@@ -5524,9 +5524,6 @@ var $author$project$Main$sectionTitle = F3(
 						]))
 				]));
 	});
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $author$project$Main$codeBlock = function (codeString) {
@@ -5547,6 +5544,28 @@ var $author$project$Main$codeBlock = function (codeString) {
 					]))
 			]));
 };
+var $elm$html$Html$li = _VirtualDom_node('li');
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $author$project$Main$taskResultView = function (result) {
+	var versionString = result.a;
+	return A2(
+		$elm$html$Html$li,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('以下のバージョン以上が表示される')
+					])),
+				$author$project$Main$codeBlock(versionString)
+			]));
+};
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $author$project$Main$CopyToClipboard = function (a) {
 	return {$: 'CopyToClipboard', a: a};
 };
@@ -5576,8 +5595,6 @@ var $elm$html$Html$Attributes$href = function (url) {
 		_VirtualDom_noJavaScriptUri(url));
 };
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$li = _VirtualDom_node('li');
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -5714,17 +5731,10 @@ var $author$project$Main$taskView = function (task) {
 		]);
 	return A2(
 		$elm$html$Html$div,
-		_List_Nil,
+		styles,
 		_List_fromArray(
 			[
-				A3($author$project$Main$sectionTitle, task.id, task.isExpanded, task.title),
-				A2(
-				$elm$html$Html$div,
-				styles,
-				_List_fromArray(
-					[
-						$author$project$Main$taskListView(task.taskSteps)
-					]))
+				$author$project$Main$taskListView(task.taskSteps)
 			]));
 };
 var $author$project$Main$taskSectionView = function (task) {
@@ -5736,7 +5746,17 @@ var $author$project$Main$taskSectionView = function (task) {
 			]),
 		_List_fromArray(
 			[
-				$author$project$Main$taskView(task)
+				A3($author$project$Main$sectionTitle, task.id, task.isExpanded, task.title),
+				$author$project$Main$taskView(task),
+				function () {
+				var _v0 = task.result;
+				if (_v0.$ === 'Just') {
+					var result = _v0.a;
+					return $author$project$Main$taskResultView(result);
+				} else {
+					return A2($elm$html$Html$div, _List_Nil, _List_Nil);
+				}
+			}()
 			]));
 };
 var $author$project$Main$tasksToList = function (tasks) {

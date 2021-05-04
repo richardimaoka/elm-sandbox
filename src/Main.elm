@@ -20,7 +20,12 @@ init _ =
 initTasks : Tasks
 initTasks =
     tasksFromList
-        [ { id = "aaaa"
+        [ { id = "prerequisites"
+          , title = "Prerequisites"
+          , isOpen = False
+          , taskSteps = prerequisiteSteps
+          }
+        , { id = "aaaa"
           , title = "始める前に"
           , isOpen = True
           , taskSteps = taskSteps1
@@ -36,6 +41,13 @@ type alias PrerequisiteStep =
     { command : String
     , expected : String
     }
+
+
+prerequisiteSteps : TaskSteps
+prerequisiteSteps =
+    taskStepsFromList
+        [ TaskStepCode "elm --version"
+        ]
 
 
 taskSteps1 : TaskSteps
@@ -188,7 +200,7 @@ taskView task =
                 [ style "max-height" "0px", style "overflow" "hidden" ]
     in
     section [ class "border-2 mb-2 shadow-md" ]
-        [ sectionTitle task.id task.isOpen "始める前に"
+        [ sectionTitle task.id task.isOpen task.title
         , div styles [ taskListView task.taskSteps ]
         ]
 

@@ -5181,17 +5181,8 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$TaskStepButton = function (a) {
-	return {$: 'TaskStepButton', a: a};
-};
 var $author$project$Main$TaskStepCode = function (a) {
 	return {$: 'TaskStepCode', a: a};
-};
-var $author$project$Main$TaskStepDescription = function (a) {
-	return {$: 'TaskStepDescription', a: a};
-};
-var $author$project$Main$TaskStepScreenshots = function (a) {
-	return {$: 'TaskStepScreenshots', a: a};
 };
 var $elm$core$Array$fromListHelp = F3(
 	function (list, nodeList, nodeListSize) {
@@ -5231,6 +5222,20 @@ var $elm$core$Array$fromList = function (list) {
 var $author$project$Main$taskStepsFromList = function (list) {
 	return $elm$core$Array$fromList(list);
 };
+var $author$project$Main$prerequisiteSteps = $author$project$Main$taskStepsFromList(
+	_List_fromArray(
+		[
+			$author$project$Main$TaskStepCode('elm --version')
+		]));
+var $author$project$Main$TaskStepButton = function (a) {
+	return {$: 'TaskStepButton', a: a};
+};
+var $author$project$Main$TaskStepDescription = function (a) {
+	return {$: 'TaskStepDescription', a: a};
+};
+var $author$project$Main$TaskStepScreenshots = function (a) {
+	return {$: 'TaskStepScreenshots', a: a};
+};
 var $author$project$Main$taskSteps1 = $author$project$Main$taskStepsFromList(
 	_List_fromArray(
 		[
@@ -5248,6 +5253,7 @@ var $author$project$Main$tasksFromList = function (list) {
 var $author$project$Main$initTasks = $author$project$Main$tasksFromList(
 	_List_fromArray(
 		[
+			{id: 'prerequisites', isOpen: false, taskSteps: $author$project$Main$prerequisiteSteps, title: 'Prerequisites'},
 			{id: 'aaaa', isOpen: true, taskSteps: $author$project$Main$taskSteps1, title: '始める前に'}
 		]));
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -5676,7 +5682,7 @@ var $author$project$Main$taskView = function (task) {
 			]),
 		_List_fromArray(
 			[
-				A3($author$project$Main$sectionTitle, task.id, task.isOpen, '始める前に'),
+				A3($author$project$Main$sectionTitle, task.id, task.isOpen, task.title),
 				A2(
 				$elm$html$Html$div,
 				styles,

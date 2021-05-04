@@ -15,7 +15,8 @@
   <script type="text/javascript">
     var app = Elm.Main.init({ node: document.getElementById("elm-app") });
     app.ports.copyToClipboard.subscribe(function (stringToCopy) {
-      var input = document.createElement("input");
+      console.log(stringToCopy);
+      var input = document.createElement("textarea");
       document.body.appendChild(input);
       input.value = stringToCopy;
       input.select();

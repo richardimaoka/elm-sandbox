@@ -5225,7 +5225,8 @@ var $author$project$Main$taskStepsFromList = function (list) {
 var $author$project$Main$prerequisiteSteps = $author$project$Main$taskStepsFromList(
 	_List_fromArray(
 		[
-			$author$project$Main$TaskStepCode('elm --version')
+			$author$project$Main$TaskStepCode('elm --version'),
+			$author$project$Main$TaskStepCode('package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("hello world")\n}')
 		]));
 var $author$project$Main$TaskStepButton = function (a) {
 	return {$: 'TaskStepButton', a: a};

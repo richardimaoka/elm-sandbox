@@ -25,21 +25,21 @@ main2 =
 
 init2 : flags -> ( Model2, Cmd Msg2 )
 init2 _ =
-    ( 2, Cmd.none )
+    ( InstalledVersion "0.19.1", Cmd.none )
 
 
 update2 : Msg2 -> Model2 -> ( Model2, Cmd Msg2 )
-update2 _ _ =
-    ( 2, Cmd.none )
+update2 _ model =
+    ( model, Cmd.none )
 
 
 view2 : Model2 -> Html Msg2
-view2 _ =
-    div [] [ text "hi" ]
+view2 model =
+    resultView model
 
 
 type alias Model2 =
-    Int
+    TaskResult
 
 
 type alias Msg2 =
@@ -86,7 +86,7 @@ view : Model -> Html Msg
 view model =
     article [ class "p-4 w-max-full lg:max-w-screen-md" ]
         (List.map
-            taskView
+            taskSectionView
             (tasksToList model.tasks)
         )
 
@@ -219,7 +219,7 @@ findRecursive predicate currentIndex array =
     Array.get currentIndex array |> Maybe.andThen maybeIndex
 
 
-type Result
+type TaskResult
     = InstalledVersion String
 
 
@@ -254,6 +254,12 @@ type Msg
     | CopyToClipboard String
 
 
+taskSectionView : Task -> Html Msg
+taskSectionView task =
+    section [ class "border-4 mb-2 shadow-md" ]
+        [ taskView task ]
+
+
 taskView : Task -> Html Msg
 taskView task =
     let
@@ -264,7 +270,7 @@ taskView task =
             else
                 [ style "max-height" "0px", style "overflow" "hidden" ]
     in
-    section [ class "border-2 mb-2 shadow-md" ]
+    div []
         [ sectionTitle task.id task.isExpanded task.title
         , div styles [ taskListView task.taskSteps ]
         ]
@@ -342,3 +348,13 @@ taskStepView step =
 codeCopyButton : String -> Html Msg
 codeCopyButton codeString =
     div [] [ button [ onClick <| CopyToClipboard codeString ] [ text "copy" ] ]
+
+
+resultView : TaskResult -> Html msg
+resultView result =
+    case result of
+        InstalledVersion versionString ->
+            li []
+                [ p [] [ text "以下のバージョン以上が表示される" ]
+                , codeBlock versionString
+                ]

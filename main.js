@@ -5461,8 +5461,8 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$section = _VirtualDom_node('section');
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $author$project$Main$Collapse = function (a) {
 	return {$: 'Collapse', a: a};
 };
@@ -5713,11 +5713,8 @@ var $author$project$Main$taskView = function (task) {
 			A2($elm$html$Html$Attributes$style, 'overflow', 'hidden')
 		]);
 	return A2(
-		$elm$html$Html$section,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('border-2 mb-2 shadow-md')
-			]),
+		$elm$html$Html$div,
+		_List_Nil,
 		_List_fromArray(
 			[
 				A3($author$project$Main$sectionTitle, task.id, task.isExpanded, task.title),
@@ -5728,6 +5725,18 @@ var $author$project$Main$taskView = function (task) {
 					[
 						$author$project$Main$taskListView(task.taskSteps)
 					]))
+			]));
+};
+var $author$project$Main$taskSectionView = function (task) {
+	return A2(
+		$elm$html$Html$section,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('border-4 mb-2 shadow-md')
+			]),
+		_List_fromArray(
+			[
+				$author$project$Main$taskView(task)
 			]));
 };
 var $author$project$Main$tasksToList = function (tasks) {
@@ -5742,7 +5751,7 @@ var $author$project$Main$view = function (model) {
 			]),
 		A2(
 			$elm$core$List$map,
-			$author$project$Main$taskView,
+			$author$project$Main$taskSectionView,
 			$author$project$Main$tasksToList(model.tasks)));
 };
 var $author$project$Main$main0 = $elm$browser$Browser$element(
